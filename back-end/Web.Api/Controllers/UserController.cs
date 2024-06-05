@@ -2,9 +2,11 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using System.Dynamic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using System.Text.Json;
 using Web.Api.Database;
 using Web.Api.Domain;
 using Web.Api.Extensions;
@@ -21,6 +23,7 @@ namespace Web.Api.Controllers
 
         public UserController(ILogger<UserController> logger, SuperIngressoContext context)
         {
+            var x = this.Url;
             _logger = logger;
             Context = context;
         }
@@ -34,7 +37,7 @@ namespace Web.Api.Controllers
         {
             var user = new User();
 
-            user.Id = Guid.Empty.Equals(userModel.Id) ? Guid.NewGuid() : userModel.Id;
+            user.Id = Guid.Empty.Equals(userModel.Id) ? Guid.NewGuid() : Guid.Parse(userModel.Id);
             user.Nome = userModel.Nome;
             user.Login = userModel.Login;
             user.Senha = userModel.Senha.ToSha256();
@@ -44,6 +47,36 @@ namespace Web.Api.Controllers
 
             return Ok();
         }
+
+        [HttpPut()]
+        public async Task<IActionResult> Update2([FromBody] UserModel userModel)
+        {
+            return Ok();
+        }
+            [HttpPut("{id:guid}")]
+        public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UserModel userModel)
+        {
+            var user = await Context.Set<User>().FirstOrDefaultAsync(user => user.Id == id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            user.Nome = userModel.Nome;
+            user.SobreNome = userModel.SobreNome;
+            user.Email = userModel.Email;
+            user.Endereco = userModel.Endereco;
+            user.Telefone = userModel.Telefone;
+            user.Cidade = userModel.Cidade;
+            user.Estado = userModel.Estado;
+            user.CodigoPostal = userModel.CodigoPostal;
+
+            Context.Set<User>().Attach(user);
+            await Context.SaveChangesAsync();
+
+            return Ok("Usuário alterado com sucesso");
+        }
+
 
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginModel userLogin)
@@ -56,7 +89,7 @@ namespace Web.Api.Controllers
                 return Unauthorized();
             }
 
-            var senha = userLogin.Login.ToSha256();
+            var senha = userLogin.Senha.ToSha256();
             var user = Context.Set<User>()
                 .Where(a => a.Login == userLogin.Login)
                 .FirstOrDefault(a => a.Senha == senha)
@@ -82,13 +115,56 @@ namespace Web.Api.Controllers
             var token = tokenHandler.CreateToken(tokenDescriptor);
             var tokenString = tokenHandler.WriteToken(token);
 
-            return Ok(new { Token = tokenString });
+            return Ok(new
+            {
+                Token = tokenString,
+                Login = user.Login,
+                Nome = user.Nome,
+                Id = user.Id
+            });
         }
 
         [HttpGet]
         public IEnumerable<User> Get()
         {
             return Context.Set<User>().ToList();
+        }
+
+        [HttpGet("{id:guid}")]
+        public async Task<User> Get([FromRoute] Guid id)
+        {
+            var user = await Context
+                .Set<User>()
+                .FirstOrDefaultAsync(a => a.Id == id)
+                ;
+
+            return user;
+        }
+
+        [HttpPatch("{id}/password")]
+        public async Task<IActionResult> ChangePasswordAsync([FromRoute] Guid id, [FromBody] PasswordModel passWordModel)
+        {
+            var user = await Context
+                .Set<User>()
+                .FirstOrDefaultAsync(a => a.Id == id)
+                ;
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            if (passWordModel.Senha != passWordModel.ConfirmaSenha)
+            {
+                return BadRequest("Os campos 'Senha' e 'Confirmar Senha' não podem ser diferentes");
+            }
+
+            user.Senha = passWordModel.Senha.ToSha256();
+
+            Context.Set<User>().Update(user);
+            await Context.SaveChangesAsync();
+
+            return Ok(user);
         }
     }
 }

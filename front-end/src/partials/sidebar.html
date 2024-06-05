@@ -3,16 +3,16 @@
         <a href="/">
           <div class="sidebar-header">
             <div class="sidebar-logo-icon">
-              <img src="./images/logo-small.svg" alt="logo" class="h-[45px]" />
+              <img src="./images/login.jpg" alt="logo" class="h-[45px]" />
             </div>
 
             <div class="sidebar-logo-text">
               <h1 class="flex text-xl">
-                <span class="font-bold text-slate-800 dark:text-slate-200"> Admin </span>
-                <span class="font-semibold text-primary-500">Toolkit</span>
+                <span class="font-bold text-slate-800 dark:text-slate-200"> Super </span>
+                <span class="font-semibold text-primary-500">Ticket</span>
               </h1>
 
-              <p class="whitespace-nowrap text-xs text-slate-400">Simple &amp; Customizable</p>
+              <p class="whitespace-nowrap text-xs text-slate-400">Administre sua bilheteria</p>
             </div>
           </div>
         </a>
@@ -43,101 +43,24 @@
 
           <div class="sidebar-menu-header">Applications</div>
 
-          <!-- Email -->
-          <li>
-            <a href="./email.html" class="sidebar-menu">
-              <span class="sidebar-menu-icon">
-                <i data-feather="mail"></i>
-              </span>
-              <span class="sidebar-menu-text">Email</span>
-            </a>
-          </li>
-          <!-- Chat -->
-          <li>
-            <a href="./chat.html" class="sidebar-menu">
-              <span class="sidebar-menu-icon">
-                <i data-feather="message-square"></i>
-              </span>
-              <span class="sidebar-menu-text">Chat</span>
-            </a>
-          </li>
-          <!-- Calendar -->
-          <li>
-            <a href="./calendar.html" class="sidebar-menu">
-              <span class="sidebar-menu-icon">
-                <i data-feather="calendar"></i>
-              </span>
-              <span class="sidebar-menu-text">Calendar</span>
-            </a>
-          </li>
-          <!-- Invoice -->
-          <li>
-            <a href="javascript:void(0);" class="sidebar-menu">
-              <span class="sidebar-menu-icon">
-                <i data-feather="file-text"></i>
-              </span>
-              <span class="sidebar-menu-text">Invoice</span>
-              <span class="sidebar-menu-arrow">
-                <i data-feather="chevron-right"></i>
-              </span>
-            </a>
-            <ul class="sidebar-submenu">
-              <li>
-                <a href="./invoice-create.html" class="sidebar-submenu-item"> Create </a>
-              </li>
-
-              <li>
-                <a href="./invoice-details.html" class="sidebar-submenu-item"> Details </a>
-              </li>
-            </ul>
-          </li>
-          <!-- ecommnerce -->
-          <li>
-            <a href="javascript:void(0);" class="sidebar-menu">
-              <span class="sidebar-menu-icon">
-                <i data-feather="shopping-bag"></i>
-              </span>
-              <span class="sidebar-menu-text">Ecommerce</span>
-              <span class="sidebar-menu-arrow">
-                <i data-feather="chevron-right"></i>
-              </span>
-            </a>
-            <ul class="sidebar-submenu">
-              <li>
-                <a href="./product-list.html" class="sidebar-submenu-item"> Product List </a>
-              </li>
-
-              <li>
-                <a href="./product-edit.html" class="sidebar-submenu-item"> Product Edit </a>
-              </li>
-              <li>
-                <a href="./order-list.html" class="sidebar-submenu-item"> Order List </a>
-              </li>
-              <li>
-                <a href="./order-details.html" class="sidebar-submenu-item"> Order Details </a>
-              </li>
-              <li>
-                <a href="./customer-list.html" class="sidebar-submenu-item"> Customer List </a>
-              </li>
-            </ul>
-          </li>
+          
           <!-- Users -->
           <li>
-            <a href="javascript:void(0);" class="sidebar-menu">
+            <a href="javascript:void(0);" id="usersLink" class="sidebar-menu">
               <span class="sidebar-menu-icon">
                 <i data-feather="users"></i>
               </span>
-              <span class="sidebar-menu-text">Users</span>
+              <span class="sidebar-menu-text">Usuários</span>
               <span class="sidebar-menu-arrow">
                 <i data-feather="chevron-right"></i>
               </span>
             </a>
             <ul class="sidebar-submenu">
               <li>
-                <a href="./user-list.html" class="sidebar-submenu-item">List</a>
+                <a href="./user-list.html" id="userListLink"  class="sidebar-submenu-item">Listagem</a>
               </li>
               <li>
-                <a href="./profile.html" class="sidebar-submenu-item"> Profile </a>
+                <a href="./profile.html" id="perfilLink" class="sidebar-submenu-item"> Perfil </a>
               </li>
             </ul>
           </li>
@@ -374,3 +297,16 @@
         </ul>
         <!-- Sidebar Menu Ends -->
       </aside>
+      <script>
+        
+         if(window.location.href.indexOf("profile") > 0){
+            document.getElementById("usersLink").className += " active";
+            document.getElementById("perfilLink").className += " active";
+         }
+
+         if(window.location.href.indexOf("user-list") > 0){
+            document.getElementById("usersLink").className += " active";
+            document.getElementById("userListLink").className += " active";
+         }
+        
+      </script>

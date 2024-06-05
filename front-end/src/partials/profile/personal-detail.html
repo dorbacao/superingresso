@@ -1,0 +1,96 @@
+<div class="card">
+    <div class="card-body">
+      <h2 class="text-[16px] font-semibold text-slate-700 dark:text-slate-300">Detalhes Pessoais</h2>
+      <p class="mb-4 text-sm font-normal text-slate-400">Administre as informações do usuário</p>
+      <form method="get" class="flex flex-col gap-5">
+        <!-- Name  -->
+        <div class="grid grid-cols-1 gap-5 md:grid-cols-2">
+          <label class="label" for="first-name">
+            <span class="my-1 block">Primeiro Nome</span>
+            <input type="text" class="input" value="" id="first-name" />
+          </label>
+          <label class="label" for="last-name">
+            <span class="my-1 block">Sobre Nome</span>
+            <input type="text" class="input" value="" id="last-name" />
+          </label>
+        </div>
+        <!-- Phone & Email  -->
+        <div class="grid grid-cols-1 gap-5 md:grid-cols-2">
+          <label class="label" for="phone">
+            <span class="my-1 block">Telefone</span>
+            <input type="tell" class="input" value="" id="phone" />
+          </label>
+          <label class="label" for="email">
+            <span class="my-1 block">Email</span>
+            <input type="email" class="input" value="" id="email" />
+          </label>
+        </div>
+        <!-- Street & City  -->
+        <div class="grid grid-cols-1 gap-5 md:grid-cols-2">
+          <label class="label" for="street-address">
+            <span class="my-1 block">Endereço</span>
+            <input
+              type="text"
+              class="input"
+              value=""
+              id="endereco"
+            />
+          </label>
+          <label class="label" for="city-state">
+            <span class="my-1 block">Cidade</span>
+            <input type="text" class="input" value="" id="city-state" />
+          </label>
+        </div>
+        <!-- Country & Zip  -->
+        <div class="grid grid-cols-1 gap-5 md:grid-cols-2">
+          <label class="label" for="country">
+            <span class="my-1 block">Estado</span>
+            <input type="text" class="input" value="" id="country" />
+          </label>
+          <label class="label" for="zip-code">
+            <span class="my-1 block">Código Postal</span>
+            <input type="text" class="input" value="" id="zip-code" />
+          </label>
+        </div>
+        <!-- Button  -->
+        <div class="flex items-center justify-end gap-4">
+          <button
+            type="button"
+            id="cancel-user-detail-button"
+            data-toggle="modal" 
+            data-target="#cancel-modal-controlled"
+            class="btn border border-slate-300 text-slate-500 dark:border-slate-700 dark:text-slate-300"
+          >
+            Cancelar
+          </button>
+          <button type="button" id="save-user-detail-button" class="btn btn-primary">Salvar Alterações</button>
+        </div>
+
+        <div class="modal modal-centered" id="cancel-modal-controlled">
+          <div class="modal-dialog">
+              <div class="modal-content">
+                  <div class="modal-header">
+                    <div class="flex items-center justify-between">
+                      <h6>Tem certeza?</h6>
+                      <button type="button" class="btn btn-plain-secondary dark:text-slate-300 dark:hover:bg-slate-700 dark:focus:bg-slate-700" data-dismiss="modal">
+                          <i data-feather="x" width="1.5rem" height="1.5rem"></i>
+                      </button>
+                  </div>
+                  </div>
+                  <div class="modal-body">
+                    <p class="text-sm text-slate-500 dark:text-slate-300">
+                      Deseja realmente restaurar os dados do usuário?
+                  </p>
+                  </div>
+                  <div class="modal-footer">
+                    <div class="flex items-center justify-end gap-4">
+                      <button type="button" id="cancel-button" class="btn btn-secondary" data-toggle="modal" data-dismiss="modal">Cancelar</button>
+                      <button type="button" id="confirmar-button" class="btn btn-primary">Confirmar</button>
+                  </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+      </form>
+    </div>
+  </div>

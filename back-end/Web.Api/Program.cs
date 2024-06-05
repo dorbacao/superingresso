@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
 using Web.Api.Database;
+using Web.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,16 +33,17 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
+//builder.Services.AddCors();
+
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowSpecificOrigin",
-        builder =>
-        {
-            builder
-                .AllowAnyOrigin()
-                .AllowAnyHeader()
-                .AllowAnyMethod();
-        });
+    options.AddPolicy(name: "CorsPolicy",
+        builder => builder.AllowAnyOrigin()
+                          //.WithHeaders(HeaderNames.ContentType, "application/json")
+                          .AllowAnyHeader()
+                          .AllowAnyMethod()
+        //.WithMethods("PUT", "DELETE", "GET", "OPTIONS", "POST")
+        );
 });
 
 
@@ -48,7 +51,7 @@ var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 // Configurar o middleware HTTP
 if (app.Environment.IsDevelopment())
@@ -61,10 +64,27 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-app.UseCors("AllowSpecificOrigin");
+app.UseCors("CorsPolicy");
+//app.UseCors(builder =>
+//    builder.WithOrigins("http://localhost:5173") // Substitua com a origem que você quer permitir
+//           .AllowAnyHeader()
+//           .AllowAnyMethod()
+//);
+//app.UseCors(
+//               options => options.SetIsOriginAllowed(x => _ = true)
+//               .WithMethods("PUT", "DELETE", "GET", "OPTIONS", "POST")
+//               .AllowAnyHeader()
+//               .AllowCredentials()
+//           );
 
 // Configure the HTTP request pipeline.
 
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
+
+
+//app.UseMiddleware<OptionsMiddleware>();
 app.UseAuthorization();
 
 app.MapControllers();

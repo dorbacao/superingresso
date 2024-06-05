@@ -133,4 +133,6 @@ C:\Projetos\superingresso\back-end\Web.Api\bin\Debug\net8.0\ru\Microsoft.CodeAna
 C:\Projetos\superingresso\back-end\Web.Api\bin\Debug\net8.0\tr\Microsoft.CodeAnalysis.Workspaces.resources.dll
 C:\Projetos\superingresso\back-end\Web.Api\bin\Debug\net8.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.resources.dll
 C:\Projetos\superingresso\back-end\Web.Api\bin\Debug\net8.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
+C:\Projetos\superingresso\back-end\Web.Api\obj\Debug\net8.0\Web.Api.sourcelink.json
+C:\Projetos\superingresso\back-end\Web.Api\bin\Debug\net8.0\web.config
 C:\Projetos\superingresso\back-end\Web.Api\obj\Debug\net8.0\Web.Api.csproj.CopyComplete
