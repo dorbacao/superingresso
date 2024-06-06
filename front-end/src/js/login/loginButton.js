@@ -7,6 +7,16 @@ export function loginInit(){
 
     document.getElementById("loginInput").focus();
 
+    var senhaInput = document.getElementById("senhaInput");
+
+    senhaInput.addEventListener("keypress", function(e) {
+        if (e.key === 'Enter') {
+            var btn = document.querySelector("#loginInput");
+            btn.click();
+        }
+    });
+    
+
     document.getElementById("loginButton").addEventListener('click', async ()=>{
         var loginInput = document.getElementById("loginInput");
         var senhaInput = document.getElementById("senhaInput");

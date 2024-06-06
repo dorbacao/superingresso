@@ -8,7 +8,7 @@ export default function initApp(){
 
         if(isSignoutPage == false){
             toastr.info('Sessão encerrada');
-            setTimeout(()=>{window.location = 'login.html'}, 1000);
+            setTimeout(()=>{window.location = 'login2.html'}, 1000);
         }
         
     }

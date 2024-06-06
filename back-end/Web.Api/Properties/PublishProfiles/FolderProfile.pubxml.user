@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121.
+-->
+<Project>
+  <PropertyGroup>
+    <_PublishTargetUrl>G:\Other computers\Servidor\WebServer\marcuscarreira.pt\back-end</_PublishTargetUrl>
+    <History>True|2024-06-06T20:04:13.8764462Z;True|2024-06-06T20:04:34.9031491+01:00;False|2024-06-06T20:04:22.0939856+01:00;True|2024-06-06T19:52:04.9801557+01:00;True|2024-06-06T19:49:35.0667001+01:00;True|2024-06-06T19:47:42.7147112+01:00;True|2024-06-06T19:45:31.7682960+01:00;True|2024-06-06T19:39:36.0857317+01:00;True|2024-06-06T19:32:12.3969154+01:00;True|2024-06-06T19:14:39.9829484+01:00;True|2024-06-06T18:18:14.5418696+01:00;True|2024-06-06T18:17:57.1007132+01:00;True|2024-06-06T18:08:52.0516321+01:00;True|2024-06-06T16:56:32.4990345+01:00;True|2024-06-06T16:56:02.6826803+01:00;</History>
+    <LastFailureDetails />
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+  </PropertyGroup>
+  <ItemGroup>
+    <DestinationConnectionStrings Include="SuperIngresso">
+      <Value>Server=localhost%3bDatabase=super-ingresso%3bMultipleActiveResultSets=true%3bUser Id=sa%3bPassword=%40Abc123#%24%3bTrustServerCertificate=True%3b</Value>
+    </DestinationConnectionStrings>
+  </ItemGroup>
+</Project>

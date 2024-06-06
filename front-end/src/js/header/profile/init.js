@@ -12,5 +12,4 @@ export async function initProfileHeader(){
 
     
 }
-
-await initProfileHeader();
+setTimeout(initProfileHeader, 500);

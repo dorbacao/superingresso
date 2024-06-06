@@ -35,7 +35,8 @@ export default defineConfig(({ command, mode }) => {
     },
     build: {
       target: 'esnext',
-      outDir: resolve(__dirname, 'dist'),
+      //outDir: resolve(__dirname, 'dist'),
+      outDir: mode === 'production' ? 'G:\\Other computers\\Servidor\\WebServer\\marcuscarreira.pt\\front-end' : '../dist-development',
       assetsInclude: ['**/*.html'],
       rollupOptions: {
         input: entries,

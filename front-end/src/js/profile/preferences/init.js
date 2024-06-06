@@ -7,5 +7,4 @@ export async function initPreferences(){
         alert('cancelar preferencias');
         
     });
-
 }

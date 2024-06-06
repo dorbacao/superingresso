@@ -264,7 +264,7 @@
     "pages": [
       {
         "name": "Login",
-        "url": "/login.html",
+        "url": "/login2.html",
         "icon": "ti ti-login"
       },
       {

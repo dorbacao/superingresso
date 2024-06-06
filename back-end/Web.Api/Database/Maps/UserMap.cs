@@ -10,14 +10,15 @@ namespace Web.Api.Database.Maps
         {
             builder.HasKey(a => a.Id);
             builder.Property(a => a.Nome).IsRequired();
+            builder.Property(a => a.SobreNome).IsRequired(false);
             builder.Property(a => a.Login).IsRequired();
             builder.Property(a => a.Senha).IsRequired();            
             builder.Property(a => a.Email).IsRequired();
-            builder.Property(a => a.Endereco).IsRequired();
-            builder.Property(a => a.Telefone);
-            builder.Property(a => a.Cidade);
-            builder.Property(a => a.Estado);
-            builder.Property(a => a.CodigoPostal);
+            builder.Property(a => a.Endereco).IsRequired(false);
+            builder.Property(a => a.Telefone).IsRequired(false);
+            builder.Property(a => a.Cidade).IsRequired(false);
+            builder.Property(a => a.Estado).IsRequired(false);
+            builder.Property(a => a.CodigoPostal).IsRequired(false);
             builder.Property(a => a.Ativo).IsRequired().HasDefaultValue(true);
 
             builder.ToTable("User");

@@ -34,11 +34,9 @@ namespace Web.Api.Migrations
                         .HasDefaultValue(true);
 
                     b.Property<string>("Cidade")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CodigoPostal")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("DataInclusao")
@@ -49,11 +47,9 @@ namespace Web.Api.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Endereco")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Estado")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Login")
@@ -69,11 +65,9 @@ namespace Web.Api.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SobreNome")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Telefone")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -87,7 +81,7 @@ namespace Web.Api.Migrations
                             Ativo = false,
                             Cidade = "Almada",
                             CodigoPostal = "2805062",
-                            DataInclusao = new DateTime(2024, 6, 1, 20, 53, 25, 393, DateTimeKind.Local).AddTicks(5260),
+                            DataInclusao = new DateTime(2024, 6, 2, 15, 30, 21, 539, DateTimeKind.Local).AddTicks(4431),
                             Email = "marcus.carreira@gmail.com",
                             Endereco = "Rua Alvaro Vaz de Almada 3",
                             Estado = "Setúbal",
@@ -103,7 +97,7 @@ namespace Web.Api.Migrations
                             Ativo = false,
                             Cidade = "Almada",
                             CodigoPostal = "2805062",
-                            DataInclusao = new DateTime(2024, 6, 1, 20, 53, 25, 393, DateTimeKind.Local).AddTicks(5315),
+                            DataInclusao = new DateTime(2024, 6, 2, 15, 30, 21, 539, DateTimeKind.Local).AddTicks(4491),
                             Email = "pedro.leal@gmail.com",
                             Endereco = "Rua Alvaro Vaz de Almada 3",
                             Estado = "Setúbal",
@@ -119,7 +113,7 @@ namespace Web.Api.Migrations
                             Ativo = false,
                             Cidade = "Almada",
                             CodigoPostal = "2805062",
-                            DataInclusao = new DateTime(2024, 6, 3, 20, 53, 25, 393, DateTimeKind.Local).AddTicks(5321),
+                            DataInclusao = new DateTime(2024, 6, 4, 15, 30, 21, 539, DateTimeKind.Local).AddTicks(4496),
                             Email = "marcus.miris@gmail.com",
                             Endereco = "Rua Alvaro Vaz de Almada 3",
                             Estado = "Setúbal",
@@ -135,7 +129,7 @@ namespace Web.Api.Migrations
                             Ativo = false,
                             Cidade = "Almada",
                             CodigoPostal = "2805062",
-                            DataInclusao = new DateTime(2024, 6, 3, 20, 53, 25, 393, DateTimeKind.Local).AddTicks(5326),
+                            DataInclusao = new DateTime(2024, 6, 4, 15, 30, 21, 539, DateTimeKind.Local).AddTicks(4501),
                             Email = "luiz.cardoso@gmail.com",
                             Endereco = "Rua Alvaro Vaz de Almada 3",
                             Estado = "Setúbal",
