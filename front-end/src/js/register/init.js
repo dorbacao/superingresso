@@ -1,5 +1,5 @@
 
-import toastr from 'toastr';
+import toastr from "./../components/toast";
 import 'toastr/build/toastr.min.css';
 import { authService } from '../services/auth';
 

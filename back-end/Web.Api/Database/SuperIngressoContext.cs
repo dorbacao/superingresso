@@ -2,26 +2,29 @@
 using Microsoft.EntityFrameworkCore.Query.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
+using System.Collections.Generic;
 using Web.Api.Database.Maps;
-using Web.Api.Domain;
+using Web.Api.Domain.IdentityAgg;
 
 namespace Web.Api.Database
 {
+    public static class ContextExtensions
+    {
+     
+    }
+
     public class SuperIngressoContext : DbContext
     {
         public SuperIngressoContext(DbContextOptions<SuperIngressoContext> options)
             : base(options)
         {
-
+            
         }
 
         public ISet<User> UserSet { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        private void CreateData(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
-
-            modelBuilder.ApplyConfiguration(new UserMap());
 
             modelBuilder.Entity<User>().HasData(
               new User
@@ -31,8 +34,8 @@ namespace Web.Api.Database
                   Nome = "Marcus",
                   SobreNome = "Dorbação",
                   Senha = "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918",
-                  Telefone="+351910298911",
-                  Email ="marcus.carreira@gmail.com",
+                  Telefone = "+351910298911",
+                  Email = "marcus.carreira@gmail.com",
                   Cidade = "Almada",
                   Estado = "Setúbal",
                   Endereco = "Rua Alvaro Vaz de Almada 3",
@@ -86,8 +89,15 @@ namespace Web.Api.Database
                   DataInclusao = DateTime.Now.AddDays(-2),
               }
               );
+        }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
 
+            modelBuilder.ApplyConfiguration(new UserMap());
+            modelBuilder.ApplyConfiguration(new LocalIdentityMap());
+            //CreateData(modelBuilder);
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

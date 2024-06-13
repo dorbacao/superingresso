@@ -1,8 +1,10 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using IdentityModel;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Web.Api.Domain;
+using Web.Api.Domain.IdentityAgg;
 
 namespace Web.Api.Infraestrutura
 {
@@ -12,37 +14,81 @@ namespace Web.Api.Infraestrutura
         public string Login { get; set; }
         public string Nome { get; set; }
         public Guid Id { get; set; }
+        public LocalIdentity Identity { get; set; }
     }
+
+    //TODO: Configutar TokenService no IOC
     public class TokenService
     {
-        
-        public TokenInfo CreateToken(User user)
+        private readonly JwtConfig jwtConfig;
+
+        public TokenService(IOptions<JwtConfig> jwtConfig)
+        {
+            if (jwtConfig is null)
+            {
+                throw new ArgumentNullException(nameof(jwtConfig));
+            }
+
+            this.jwtConfig = jwtConfig.Value;
+        }
+        /// <summary>
+        /// Creates JWT Token
+        /// </summary>
+        /// <param name="identity">the user</param>
+        /// <returns>System.String</returns>
+        public TokenInfo CreateJwtToken(LocalIdentity identity)
         {
 
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes("8f14e45fceea167a5a36dedd4bea2543f391a2b3e7e9d8fd28e4e7c13b3f1e2c\r\n");
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(new Claim[]
-                {
-                    new Claim(ClaimTypes.Name, user.Login)
-                }),
-                Expires = DateTime.UtcNow.AddHours(10),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-            };
+            var key = Encoding.ASCII.GetBytes(jwtConfig.Secret);
 
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            var tokenString = tokenHandler.WriteToken(token);
+            var userClaims = BuildUserClaims(identity);
+
+            var signKey = new SymmetricSecurityKey(key);
+
+            //TODO: Copiar as configurações do JWT e colocar no appsettings.json
+
+            var jwtSecurityToken = new JwtSecurityToken(
+                issuer: jwtConfig.ValidIssuer,
+                notBefore: DateTime.UtcNow,
+                audience: jwtConfig.ValidAudience,
+                expires: DateTime.UtcNow.AddMinutes(Convert.ToInt32(jwtConfig.DurationInMinutes)),
+                claims: userClaims,
+                signingCredentials: new SigningCredentials(signKey, SecurityAlgorithms.HmacSha256));
+
+            var token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
 
             var tokenInfo = new TokenInfo()
             {
-                Nome = user.Nome,
-                Login = user.Login,
-                Id = user.Id,
-                Token = tokenString
+                Nome = identity.GivenName,
+                Login = identity.SurName,//TODO:Verificar a possibilidade de remover este campo login
+                Id = identity.Id,
+                Token = token,
+                Identity = identity
             };
 
             return tokenInfo;
         }
+
+        /// <summary>
+        /// Builds the UserClaims
+        /// </summary>
+        /// <param name="identity">the User</param>
+        /// <returns>List&lt;System.Security.Claims&gt;</returns>
+        private List<Claim> BuildUserClaims(LocalIdentity identity)
+        {
+            var userClaims = new List<Claim>()
+            {
+                new Claim(JwtClaimTypes.Id, identity.Id.ToString()),
+                new Claim(JwtClaimTypes.Email, identity.EmailOrLogin),
+                //new Claim(JwtClaimTypes.EmailVerified, identity.EmailOrLogin),
+                new Claim(JwtClaimTypes.GivenName, identity.GivenName),
+                new Claim(JwtClaimTypes.FamilyName, identity.SurName),
+                new Claim(JwtClaimTypes.Picture, identity.PictureUrl),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+            };
+
+            return userClaims;
+        }
+
     }
 }

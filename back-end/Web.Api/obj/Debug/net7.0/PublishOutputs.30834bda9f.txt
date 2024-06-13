@@ -8,6 +8,12 @@ C:\Projetos\superingresso\back-end\Web.Api\obj\Debug\net7.0\PubTmp\Out\Web.Api.r
 C:\Projetos\superingresso\back-end\Web.Api\obj\Debug\net7.0\PubTmp\Out\Web.Api.pdb
 C:\Projetos\superingresso\back-end\Web.Api\obj\Debug\net7.0\PubTmp\Out\Azure.Core.dll
 C:\Projetos\superingresso\back-end\Web.Api\obj\Debug\net7.0\PubTmp\Out\Azure.Identity.dll
+C:\Projetos\superingresso\back-end\Web.Api\obj\Debug\net7.0\PubTmp\Out\Google.Apis.dll
+C:\Projetos\superingresso\back-end\Web.Api\obj\Debug\net7.0\PubTmp\Out\Google.Apis.Auth.dll
+C:\Projetos\superingresso\back-end\Web.Api\obj\Debug\net7.0\PubTmp\Out\Google.Apis.Core.dll
+C:\Projetos\superingresso\back-end\Web.Api\obj\Debug\net7.0\PubTmp\Out\IdentityModel.dll
+C:\Projetos\superingresso\back-end\Web.Api\obj\Debug\net7.0\PubTmp\Out\Microsoft.AspNetCore.Authentication.Google.dll
+C:\Projetos\superingresso\back-end\Web.Api\obj\Debug\net7.0\PubTmp\Out\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 C:\Projetos\superingresso\back-end\Web.Api\obj\Debug\net7.0\PubTmp\Out\Microsoft.Bcl.AsyncInterfaces.dll
 C:\Projetos\superingresso\back-end\Web.Api\obj\Debug\net7.0\PubTmp\Out\Microsoft.Data.SqlClient.dll
 C:\Projetos\superingresso\back-end\Web.Api\obj\Debug\net7.0\PubTmp\Out\Microsoft.EntityFrameworkCore.dll
@@ -25,12 +31,15 @@ C:\Projetos\superingresso\back-end\Web.Api\obj\Debug\net7.0\PubTmp\Out\Microsoft
 C:\Projetos\superingresso\back-end\Web.Api\obj\Debug\net7.0\PubTmp\Out\Microsoft.OpenApi.dll
 C:\Projetos\superingresso\back-end\Web.Api\obj\Debug\net7.0\PubTmp\Out\Microsoft.SqlServer.Server.dll
 C:\Projetos\superingresso\back-end\Web.Api\obj\Debug\net7.0\PubTmp\Out\Microsoft.Win32.SystemEvents.dll
+C:\Projetos\superingresso\back-end\Web.Api\obj\Debug\net7.0\PubTmp\Out\Newtonsoft.Json.dll
 C:\Projetos\superingresso\back-end\Web.Api\obj\Debug\net7.0\PubTmp\Out\Swashbuckle.AspNetCore.Swagger.dll
 C:\Projetos\superingresso\back-end\Web.Api\obj\Debug\net7.0\PubTmp\Out\Swashbuckle.AspNetCore.SwaggerGen.dll
 C:\Projetos\superingresso\back-end\Web.Api\obj\Debug\net7.0\PubTmp\Out\Swashbuckle.AspNetCore.SwaggerUI.dll
+C:\Projetos\superingresso\back-end\Web.Api\obj\Debug\net7.0\PubTmp\Out\System.CodeDom.dll
 C:\Projetos\superingresso\back-end\Web.Api\obj\Debug\net7.0\PubTmp\Out\System.Configuration.ConfigurationManager.dll
 C:\Projetos\superingresso\back-end\Web.Api\obj\Debug\net7.0\PubTmp\Out\System.Drawing.Common.dll
 C:\Projetos\superingresso\back-end\Web.Api\obj\Debug\net7.0\PubTmp\Out\System.IdentityModel.Tokens.Jwt.dll
+C:\Projetos\superingresso\back-end\Web.Api\obj\Debug\net7.0\PubTmp\Out\System.Management.dll
 C:\Projetos\superingresso\back-end\Web.Api\obj\Debug\net7.0\PubTmp\Out\System.Memory.Data.dll
 C:\Projetos\superingresso\back-end\Web.Api\obj\Debug\net7.0\PubTmp\Out\System.Runtime.Caching.dll
 C:\Projetos\superingresso\back-end\Web.Api\obj\Debug\net7.0\PubTmp\Out\System.Security.Cryptography.ProtectedData.dll
@@ -45,6 +54,7 @@ C:\Projetos\superingresso\back-end\Web.Api\obj\Debug\net7.0\PubTmp\Out\runtimes\
 C:\Projetos\superingresso\back-end\Web.Api\obj\Debug\net7.0\PubTmp\Out\runtimes\win\lib\net6.0\Microsoft.Win32.SystemEvents.dll
 C:\Projetos\superingresso\back-end\Web.Api\obj\Debug\net7.0\PubTmp\Out\runtimes\unix\lib\net6.0\System.Drawing.Common.dll
 C:\Projetos\superingresso\back-end\Web.Api\obj\Debug\net7.0\PubTmp\Out\runtimes\win\lib\net6.0\System.Drawing.Common.dll
+C:\Projetos\superingresso\back-end\Web.Api\obj\Debug\net7.0\PubTmp\Out\runtimes\win\lib\net7.0\System.Management.dll
 C:\Projetos\superingresso\back-end\Web.Api\obj\Debug\net7.0\PubTmp\Out\runtimes\win\lib\net6.0\System.Runtime.Caching.dll
 C:\Projetos\superingresso\back-end\Web.Api\obj\Debug\net7.0\PubTmp\Out\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
 C:\Projetos\superingresso\back-end\Web.Api\obj\Debug\net7.0\PubTmp\Out\runtimes\win\lib\net6.0\System.Windows.Extensions.dll

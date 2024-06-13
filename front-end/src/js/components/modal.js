@@ -128,6 +128,13 @@ export class Modal {
 }
 
 const modal = {
+  n(callback) {
+    try {
+      return callback();
+    } catch (error) {
+      return null;
+    }
+  },
   init() {
     const toggles = this.querySelectors('[data-toggle="modal"]');
 
@@ -138,15 +145,15 @@ const modal = {
         if (targetId) {
           const target = document.querySelector(targetId);
           const options = {
-            keyboard: target.dataset.keyboard === 'false' ? false : true,
+            keyboard: this.n(()=>target.dataset.keyboard) === 'false' ? false : true,
             backdrop: (() => {
               let output = true;
 
-              if (target.dataset.backdrop === 'static') {
+              if ( this.n(()=>target.dataset.backdrop) === 'static') {
                 output = 'static';
               }
 
-              if (target.dataset.backdrop === 'false') {
+              if ( this.n(()=>target.dataset.backdrop) === 'false') {
                 output = false;
               }
 

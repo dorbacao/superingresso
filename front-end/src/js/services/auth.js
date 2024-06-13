@@ -1,4 +1,4 @@
-import toastr from 'toastr';
+import toastr from "./../components/toast";
 
 export class authService {
 
@@ -46,7 +46,7 @@ export class authService {
 
         var response = await fetch(url, {
             method: 'POST',
-            body: JSON.stringify({ 'login': login, 'senha': senha }),
+            body: JSON.stringify({ 'token': login, 'senha': senha }),
             headers: {
                 //'Access-Control-Allow-Origin': '*',
                 'Content-Type': 'application/json'
@@ -68,7 +68,7 @@ export class authService {
 
         setTimeout(()=>{
             window.location = "index.html";
-        }, 1500);
+        }, 200);
 
         return token;
     }

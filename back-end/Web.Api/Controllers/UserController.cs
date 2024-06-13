@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -8,7 +9,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Text.Json;
 using Web.Api.Database;
-using Web.Api.Domain;
+using Web.Api.Domain.IdentityAgg;
 using Web.Api.Extensions;
 using Web.Api.Models;
 
@@ -16,6 +17,7 @@ namespace Web.Api.Controllers
 {
 
     [ApiController]
+    [Authorize]
     [Route("[controller]")]
     public class UserController : ControllerBase
     {
@@ -127,6 +129,7 @@ namespace Web.Api.Controllers
         [HttpGet]
         public IEnumerable<User> Get()
         {
+            var identity = this.User.Identity;
             return Context.Set<User>().ToList();
         }
 

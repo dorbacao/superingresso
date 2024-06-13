@@ -9,8 +9,8 @@ function setInput(id, value){
 
 export async function initPersonalDetail(){
     if(!window.location.search.includes("id=")){
-        var login = JSON.parse(localStorage.getItem('login'));
-        window.location = `profile.html?id=${login.id}`
+        var token = JSON.parse(localStorage.getItem('token'));
+        window.location = `profile.html?id=${token.identity.userId}`
     }
     else{
         var id = window.location.search.replace("?id=", "");

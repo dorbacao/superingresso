@@ -1,4 +1,4 @@
-import toastr from 'toastr';
+import toastr from "./../components/toast";
 
 export class userService {
 
@@ -8,41 +8,17 @@ export class userService {
 
     async changeUserAsync(user) {
 
-        console.log('user');
-        console.log(user);
         const url = `${import.meta.env.VITE_APP_URL}/user/${user.id}`;
         
         var body = JSON.stringify(user);
 
-
-        var response = fetch(url, {
+        var response = await fetch(url, this.defaultHeader({
             method: 'PUT',
-            body: body,
-            headers: {
-                'Content-Type': 'application/json',
-            }
-        }).then(r=>{
-
-            console.log('r')
-            console.log(r)
-
-        })
-        .catch((erro, x2)=>{
-            console.log(erro)
-            console.log(x2)
-        })
-        
-        ;
-
-        var response = await fetch(url, {
-            method: 'PUT',
-            body: body,
-            headers: {
-                'Content-Type': 'application/json',
-            }
-        });
+            body: body
+        }));
 
         console.log(response);
+
         if (!response.ok) {
             toastr.error(response.statusText);
             return;
@@ -51,14 +27,26 @@ export class userService {
         var result = await response.text();
 
         toastr.success(result);
+    }
 
+    getToken(){
+        return JSON.parse(localStorage.getItem('token')).token;
+    }
+    defaultHeader(otherHeaders){
+        var defaultHeader = {headers:{
+            'Authorization': `Bearer ${this.getToken()}`,
+            'Content-Type': 'application/json'
+        }};
 
+        var concat = {...defaultHeader, ...otherHeaders};
+
+        return concat;
     }
     async getUserById(id) {
 
         const url = `${import.meta.env.VITE_APP_URL}/user/${id}`;
 
-        var response = await fetch(url);
+        var response = await fetch(url, this.defaultHeader());
 
         var userDetail = await response.json();
 
@@ -86,7 +74,7 @@ export class userService {
 
         const url = `${import.meta.env.VITE_APP_URL}/user`;
 
-        var response = await fetch(url);
+        var response = await fetch(url, this.defaultHeader());
 
         console.log(response);
         if (!response.ok) {

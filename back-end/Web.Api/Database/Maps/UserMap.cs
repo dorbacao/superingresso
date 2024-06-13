@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Web.Api.Domain;
+using Web.Api.Domain.IdentityAgg;
 
 namespace Web.Api.Database.Maps
 {
@@ -12,7 +12,7 @@ namespace Web.Api.Database.Maps
             builder.Property(a => a.Nome).IsRequired();
             builder.Property(a => a.SobreNome).IsRequired(false);
             builder.Property(a => a.Login).IsRequired();
-            builder.Property(a => a.Senha).IsRequired();            
+            builder.Property(a => a.Senha).IsRequired(false);
             builder.Property(a => a.Email).IsRequired();
             builder.Property(a => a.Endereco).IsRequired(false);
             builder.Property(a => a.Telefone).IsRequired(false);

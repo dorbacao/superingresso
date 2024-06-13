@@ -1,4 +1,3 @@
-import toastr from 'toastr';
 import { userService } from '../../services/userService';
 
 

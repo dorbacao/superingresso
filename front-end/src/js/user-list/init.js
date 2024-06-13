@@ -1,8 +1,8 @@
-import toastr from 'toastr';
+import toastr from "./../components/toast";
 import 'toastr/build/toastr.min.css';
 import { userService } from '../services/userService';
 
-const template = (row) => `<tr>
+const template = (row) =>/*html*/ `<tr>
 <td>
   <div class="flex items-center gap-3">
     <div class="avatar avatar-circle">

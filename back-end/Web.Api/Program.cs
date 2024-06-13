@@ -1,51 +1,21 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Net.Http.Headers;
-using Microsoft.OpenApi.Models;
-using Web.Api.Database;
+using System.Runtime.CompilerServices;
 using Web.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 
+builder.Services
+    .ConfigureApi()
+    .ConfigureCors()
+    .ConfigureSwagger()
+    .ConfigureAuthentication(builder.Configuration)
+    .ConfigureServices()
+    ;
 
-builder.Services.AddControllers();
-
-builder.Services.AddScoped<SuperIngressoContext>(service =>
-{
-    return new SuperIngressoContextFactory().CreateDbContext(null);
-});
-
-builder.Services.AddEndpointsApiExplorer();
-
-builder.Services.AddSwaggerGen(c =>
-{
-    c.SwaggerDoc("v1", new OpenApiInfo
-    {
-        Title = "Minha API",
-        Version = "v1",
-        Description = "Uma API simples para demonstrar o Swagger com ASP.NET Core 7",
-        Contact = new OpenApiContact
-        {
-            Name = "Seu Nome",
-            Email = "seuemail@example.com"
-        }
-    });
-});
-
-//builder.Services.AddCors();
-
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy(name: "CorsPolicy",
-        builder => builder.AllowAnyOrigin()
-                          //.WithHeaders(HeaderNames.ContentType, "application/json")
-                          .AllowAnyHeader()
-                          .AllowAnyMethod()
-        //.WithMethods("PUT", "DELETE", "GET", "OPTIONS", "POST")
-        );
-});
-
+builder.ConfigureSettings();
 
 var app = builder.Build();
 
@@ -95,7 +65,10 @@ app.MapControllerRoute(
 
 
 //app.UseMiddleware<OptionsMiddleware>();
+app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseForwardedHeaders();
 
 app.MapControllers();
 

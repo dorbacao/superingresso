@@ -17,18 +17,63 @@ namespace Web.Api.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.6")
+                .HasAnnotation("ProductVersion", "7.0.20")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Web.Api.Domain.User", b =>
+            modelBuilder.Entity("Web.Api.Domain.IdentityAgg.LocalIdentity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<bool>("Ativo")
+                    b.Property<string>("EmailOrLogin")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("GivenName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("LoginProvider")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Password")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PictureUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProviderSubject")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("SurName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("UserId")
+                        .IsRequired()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasAlternateKey("ProviderSubject", "LoginProvider");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("LocalIdentity");
+                });
+
+            modelBuilder.Entity("Web.Api.Domain.IdentityAgg.User", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool?>("Ativo")
+                        .IsRequired()
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
                         .HasDefaultValue(true);
@@ -61,7 +106,6 @@ namespace Web.Api.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Senha")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SobreNome")
@@ -73,72 +117,22 @@ namespace Web.Api.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("User", (string)null);
+                });
 
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("04fd77be-8d3b-40ff-84c7-15736d684062"),
-                            Ativo = false,
-                            Cidade = "Almada",
-                            CodigoPostal = "2805062",
-                            DataInclusao = new DateTime(2024, 6, 2, 15, 30, 21, 539, DateTimeKind.Local).AddTicks(4431),
-                            Email = "marcus.carreira@gmail.com",
-                            Endereco = "Rua Alvaro Vaz de Almada 3",
-                            Estado = "Setúbal",
-                            Login = "admin",
-                            Nome = "Marcus",
-                            Senha = "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918",
-                            SobreNome = "Dorbação",
-                            Telefone = "+351910298911"
-                        },
-                        new
-                        {
-                            Id = new Guid("03ab66ab-8d3b-40ff-84c7-15736d684062"),
-                            Ativo = false,
-                            Cidade = "Almada",
-                            CodigoPostal = "2805062",
-                            DataInclusao = new DateTime(2024, 6, 2, 15, 30, 21, 539, DateTimeKind.Local).AddTicks(4491),
-                            Email = "pedro.leal@gmail.com",
-                            Endereco = "Rua Alvaro Vaz de Almada 3",
-                            Estado = "Setúbal",
-                            Login = "pedro.leal",
-                            Nome = "Pedro",
-                            Senha = "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918",
-                            SobreNome = "Leal",
-                            Telefone = "+351910298911"
-                        },
-                        new
-                        {
-                            Id = new Guid("011266ab-8d3b-40ff-84c7-15736d684062"),
-                            Ativo = false,
-                            Cidade = "Almada",
-                            CodigoPostal = "2805062",
-                            DataInclusao = new DateTime(2024, 6, 4, 15, 30, 21, 539, DateTimeKind.Local).AddTicks(4496),
-                            Email = "marcus.miris@gmail.com",
-                            Endereco = "Rua Alvaro Vaz de Almada 3",
-                            Estado = "Setúbal",
-                            Login = "marcus.miris",
-                            Nome = "Marcus",
-                            Senha = "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918",
-                            SobreNome = "Miris",
-                            Telefone = "+351910298911"
-                        },
-                        new
-                        {
-                            Id = new Guid("021241ab-8d3b-40ff-84c7-15736d684062"),
-                            Ativo = false,
-                            Cidade = "Almada",
-                            CodigoPostal = "2805062",
-                            DataInclusao = new DateTime(2024, 6, 4, 15, 30, 21, 539, DateTimeKind.Local).AddTicks(4501),
-                            Email = "luiz.cardoso@gmail.com",
-                            Endereco = "Rua Alvaro Vaz de Almada 3",
-                            Estado = "Setúbal",
-                            Login = "luiz.cardoso",
-                            Nome = "Luiz",
-                            Senha = "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918",
-                            SobreNome = "Luiz",
-                            Telefone = "+351910298911"
-                        });
+            modelBuilder.Entity("Web.Api.Domain.IdentityAgg.LocalIdentity", b =>
+                {
+                    b.HasOne("Web.Api.Domain.IdentityAgg.User", "User")
+                        .WithMany("Identities")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Web.Api.Domain.IdentityAgg.User", b =>
+                {
+                    b.Navigation("Identities");
                 });
 #pragma warning restore 612, 618
         }

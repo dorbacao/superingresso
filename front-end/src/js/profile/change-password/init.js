@@ -1,4 +1,4 @@
-import toastr from 'toastr';
+import toastr from "../../components/toast";
 import { userService } from '../../services/userService';
 
 

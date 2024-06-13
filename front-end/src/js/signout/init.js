@@ -1,7 +1,7 @@
-import toastr from 'toastr';
+import toastr from "./../components/toast";
 export async function initSignout(){
-    localStorage.setItem('login', '');
-    setTimeout(()=>{window.location = 'login2.html'}, 3000);
+    localStorage.setItem('token', '');
+    setTimeout(()=>{window.location = 'login2.html'}, 1500);
 }
 
 await initSignout();

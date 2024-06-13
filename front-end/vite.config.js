@@ -3,6 +3,7 @@ import { defineConfig, loadEnv } from 'vite';
 import { resolve } from 'path';
 import glob from 'glob';
 import handlebars from 'vite-plugin-handlebars';
+import mkcert from 'vite-plugin-mkcert';
 
 const entries = glob.sync('./src/**/*.html').reduce((acc, path) => {
   const name = path.split('/').pop().split('.').shift();
@@ -20,6 +21,7 @@ export default defineConfig(({ command, mode }) => {
       VITE_APP_URL: JSON.stringify(env.VITE_APP_URL),
     },
     plugins: [
+      mkcert(),
       handlebars({
         partialDirectory: resolve(__dirname, './src/partials'),
       }),
@@ -32,6 +34,17 @@ export default defineConfig(({ command, mode }) => {
     },
     optimizeDeps: {
       entries: Object.keys(entries),
+    },
+
+    
+    server: {
+      https: true,
+      // ...
+      contentSecurityPolicy: {
+        directives: {
+          scriptSrc: ["'self'", "'unsafe-eval'", 'https://apis.google.com/js/platform.js'],
+        }
+      }
     },
     build: {
       target: 'esnext',
