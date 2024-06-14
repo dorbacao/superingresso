@@ -1,6 +1,6 @@
 ﻿using Web.Api.Infraestrutura;
 
-public static class SettingsServicesExtensions
+public static class ConfigureSettingsServicesExtensions
 {
     public static WebApplicationBuilder ConfigureSettings(this WebApplicationBuilder builder)
     {

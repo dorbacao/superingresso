@@ -11,6 +11,7 @@ using System.Text.Json;
 using Web.Api.Database;
 using Web.Api.Domain.IdentityAgg;
 using Web.Api.Extensions;
+using Web.Api.Infraestrutura.Common;
 using Web.Api.Models;
 
 namespace Web.Api.Controllers
@@ -32,6 +33,21 @@ namespace Web.Api.Controllers
 
         public SuperIngressoContext Context { get; }
 
+
+        [HttpGet]
+        public async Task<AnswerPaginate<List<User>>> GetUsersAsync([FromQuery] PaginateCommand command)
+        {
+            var users = await Context.Set<User>()
+                    .OrderBy(command)
+                    .Paginate(command)
+                    //.Select(a => new { a.Id, a.Telefone, a.Nome, a.SobreNome, a.Email })
+                    .ToListAsync<User>();
+                    ;
+            
+            var count = await Context.Set<User>().LongCountAsync();
+
+            return Answer.Ok(users, count);
+        }
 
 
         [HttpPost]
@@ -55,7 +71,7 @@ namespace Web.Api.Controllers
         {
             return Ok();
         }
-            [HttpPut("{id:guid}")]
+        [HttpPut("{id:guid}")]
         public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UserModel userModel)
         {
             var user = await Context.Set<User>().FirstOrDefaultAsync(user => user.Id == id);
@@ -124,13 +140,6 @@ namespace Web.Api.Controllers
                 Nome = user.Nome,
                 Id = user.Id
             });
-        }
-
-        [HttpGet]
-        public IEnumerable<User> Get()
-        {
-            var identity = this.User.Identity;
-            return Context.Set<User>().ToList();
         }
 
         [HttpGet("{id:guid}")]

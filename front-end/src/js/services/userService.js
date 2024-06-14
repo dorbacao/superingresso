@@ -1,4 +1,5 @@
 import toastr from "./../components/toast";
+import answer from "./../my-components/answer";
 
 export class userService {
 
@@ -16,6 +17,8 @@ export class userService {
             method: 'PUT',
             body: body
         }));
+
+        answer.fromResponse(await response.json());
 
         console.log(response);
 
@@ -72,20 +75,17 @@ export class userService {
 
     async getAllAsync() {
 
-        const url = `${import.meta.env.VITE_APP_URL}/user`;
+        const url = `${import.meta.env.VITE_APP_URL}/user?pageindex=1&pagesize=10`;
 
         var response = await fetch(url, this.defaultHeader());
+        
+        var content = await response.json();
 
-        console.log(response);
-        if (!response.ok) {
-            toastr.error("Login e/ou senha inválidos");
-            console.log(response.statusText);
-            return;
-        }
+        answer.fromResponse(content);
 
-        var userList = await response.json();
+        console.log(content);
 
-        return userList;
+        return content.value;
     }
 
 }

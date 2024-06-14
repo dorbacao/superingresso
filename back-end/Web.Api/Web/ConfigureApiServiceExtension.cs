@@ -2,13 +2,17 @@
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.Text.Json.Serialization;
+using Web.Api.Web.Filter;
 
 public static class ConfigureApiServiceExtension
 {
     public static IServiceCollection ConfigureApi(this IServiceCollection serviceCollection)
     {
 
-        serviceCollection.AddControllers()
+        serviceCollection.AddControllers(options => { 
+            options.Filters.Add(new AnswerFilter());
+            options.Filters.Add(new UnhandledExceptionFilter());
+            })
             .AddJsonOptions(options =>
             {
                 options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
