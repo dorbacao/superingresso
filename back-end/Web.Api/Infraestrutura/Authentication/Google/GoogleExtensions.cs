@@ -1,7 +1,7 @@
 ﻿using Web.Api.Domain.IdentityAgg;
 using static Google.Apis.Auth.GoogleJsonWebSignature;
 
-namespace Web.Api.Infraestrutura
+namespace Web.Api.Infraestrutura.Authentication.Google
 {
     public static class GoogleExtensions
     {

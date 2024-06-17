@@ -1,5 +1,31 @@
-import toastr from "./../components/toast";
 import answer from "./../my-components/answer";
+
+function _toQueryString(obj) {
+    if (!obj) return '';
+    return '?' + Object.keys(obj)
+        .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(obj[key])}`)
+        .join('&');
+}
+
+function _paging(pagination = { pageSize: 10, pageIndex: 1 }) {
+    return _toQueryString(pagination);
+}
+
+function _defaultHeader(otherHeaders) {
+    var defaultHeader = {
+        headers: {
+            'Authorization': `Bearer ${_getToken()}`,
+            'Content-Type': 'application/json'
+        }
+    };
+
+    var concat = { ...defaultHeader, ...otherHeaders };
+
+    return concat;
+}
+function _getToken() {
+    return JSON.parse(localStorage.getItem('token')).token;
+}
 
 export class userService {
 
@@ -7,53 +33,41 @@ export class userService {
 
     }
 
+  
+    
     async changeUserAsync(user) {
 
         const url = `${import.meta.env.VITE_APP_URL}/user/${user.id}`;
-        
+
         var body = JSON.stringify(user);
 
-        var response = await fetch(url, this.defaultHeader({
+        var response = await fetch(url, _defaultHeader({
             method: 'PUT',
             body: body
         }));
 
-        answer.fromResponse(await response.json());
-
-        console.log(response);
-
-        if (!response.ok) {
-            toastr.error(response.statusText);
-            return;
-        }
-
-        var result = await response.text();
-
-        toastr.success(result);
+        var content = await response.json();
+        answer.fromResponse(content);
+        return content;
     }
-
-    getToken(){
-        return JSON.parse(localStorage.getItem('token')).token;
-    }
-    defaultHeader(otherHeaders){
-        var defaultHeader = {headers:{
-            'Authorization': `Bearer ${this.getToken()}`,
-            'Content-Type': 'application/json'
-        }};
-
-        var concat = {...defaultHeader, ...otherHeaders};
-
-        return concat;
-    }
+   
+  
     async getUserById(id) {
+        try {
 
-        const url = `${import.meta.env.VITE_APP_URL}/user/${id}`;
+            const url = `${import.meta.env.VITE_APP_URL}/user/${id}`;
 
-        var response = await fetch(url, this.defaultHeader());
+            var response = await fetch(url, _defaultHeader());
 
-        var userDetail = await response.json();
+            var userDetail = await response.json();
 
-        return userDetail;
+            answer.fromResponse(userDetail);
+
+            return userDetail.value;
+
+        } catch (error) {
+            answer.fromException(error);
+        }
     }
 
     async changePassword(id, senha, confirmaSenha) {
@@ -73,19 +87,17 @@ export class userService {
         return userDetail;
     }
 
-    async getAllAsync() {
+    async getAllAsync(pagination) {
 
-        const url = `${import.meta.env.VITE_APP_URL}/user?pageindex=1&pagesize=10`;
+        const url = `${import.meta.env.VITE_APP_URL}/user${_paging(pagination)}`;
 
-        var response = await fetch(url, this.defaultHeader());
-        
+        var response = await fetch(url, _defaultHeader());
+
         var content = await response.json();
 
         answer.fromResponse(content);
 
-        console.log(content);
-
-        return content.value;
+        return content;
     }
 
 }

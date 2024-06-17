@@ -1,4 +1,4 @@
-﻿namespace Web.Api.Infraestrutura
+﻿namespace Web.Api.Infraestrutura.Authentication.Google
 {
     public class GoogleAuthConfig
     {

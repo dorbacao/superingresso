@@ -2,6 +2,17 @@
 {
     public class LocalIdentity
     {
+
+        public void Fill(LocalIdentity localIdentity)
+        {
+            ProviderSubject = localIdentity.ProviderSubject;
+            EmailOrLogin = localIdentity.EmailOrLogin;
+            Password = localIdentity.Password;
+            GivenName = localIdentity.GivenName;
+            SurName = localIdentity.SurName;
+            PictureUrl = localIdentity.PictureUrl;
+            LoginProvider = localIdentity.LoginProvider;
+        }
         /// <summary>
         /// Identificador único local do mega Ingresso
         /// </summary>

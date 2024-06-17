@@ -1,4 +1,5 @@
 ﻿using System.Windows.Input;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Web.Api.Infraestrutura.Common
 {
@@ -25,17 +26,26 @@ namespace Web.Api.Infraestrutura.Common
             }
         }
 
+        public static Answer Ok(string value)
+        {
+            var response = new Answer();
+            response.AddSuccess(value);
+            return response;
+        }
         public static Answer<T> Ok<T>(T value)
         {
             var response = new Answer<T>();
             response.Value = value;
             return response;
         }
-        public static AnswerPaginate<T> Ok<T>(T value, long totalCount)
+        public static AnswerPaginate<T> Ok<T>(T value, long totalCount, IPaginateCommand pageCommand)
         {
             var response = new AnswerPaginate<T>();
             response.Value = value;
             response.TotalCount = totalCount;
+            response.PageIndex = pageCommand.PageIndex;
+            response.PageSize = pageCommand.PageSize;
+
             return response;
         }
 
@@ -59,13 +69,13 @@ namespace Web.Api.Infraestrutura.Common
             return response;
         }
 
-        public static AnswerPaginate<T> UnAuthorized<T>(long totalCount, string text)
+        public static Answer<T> º401<T>(string message)
         {
-            var response = new AnswerPaginate<T>();
-            response.AddUnAuthError(text);
-            response.TotalCount = totalCount;
+            var response = new Answer<T>();
+            response.AddUnAuthError(message);
             return response;
         }
+
         public static Answer<T> Ok<T>()
         {
             var response = new Answer<T>();

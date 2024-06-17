@@ -79,7 +79,6 @@ C:\Projetos\superingresso\back-end\Web.Api\obj\Debug\net7.0\staticwebassets\msbu
 C:\Projetos\superingresso\back-end\Web.Api\obj\Debug\net7.0\staticwebassets\msbuild.buildTransitive.Web.Api.props
 C:\Projetos\superingresso\back-end\Web.Api\obj\Debug\net7.0\staticwebassets.pack.json
 C:\Projetos\superingresso\back-end\Web.Api\obj\Debug\net7.0\scopedcss\bundle\Web.Api.styles.css
-C:\Projetos\superingresso\back-end\Web.Api\obj\Debug\net7.0\Web.Api.csproj.CopyComplete
 C:\Projetos\superingresso\back-end\Web.Api\obj\Debug\net7.0\Web.Api.dll
 C:\Projetos\superingresso\back-end\Web.Api\obj\Debug\net7.0\refint\Web.Api.dll
 C:\Projetos\superingresso\back-end\Web.Api\obj\Debug\net7.0\Web.Api.pdb
@@ -87,3 +86,4 @@ C:\Projetos\superingresso\back-end\Web.Api\obj\Debug\net7.0\Web.Api.genruntimeco
 C:\Projetos\superingresso\back-end\Web.Api\obj\Debug\net7.0\ref\Web.Api.dll
 C:\Projetos\superingresso\back-end\Web.Api\bin\Debug\net7.0\Web.Api.xml
 C:\Projetos\superingresso\back-end\Web.Api\obj\Debug\net7.0\Web.Api.xml
+C:\Projetos\superingresso\back-end\Web.Api\obj\Debug\net7.0\Web.Api.csproj.CopyComplete

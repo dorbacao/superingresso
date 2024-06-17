@@ -1,4 +1,13 @@
-<main class="container flex-grow p-4 sm:p-6">
+<div id="spinner" class="flex justify-center items-center h-screen">
+  <div class="flex">
+    <div class="spinner-pulse">
+      <div class="spinner-pulse-primary"></div>
+      <div class="spinner-pulse-primary"></div>
+    </div>
+  </div>
+</div>
+
+<main id="container" class="container flex-grow p-4 sm:p-6 hidden">
     <!-- Page Title Starts -->
     <div class="mb-6 flex flex-col justify-between gap-y-1 sm:flex-row sm:gap-y-0">
       <h5>Listagem de Usuários</h5>
@@ -16,7 +25,7 @@
       </ol>
     </div>
     <!-- Page Title Ends -->
-
+  
     <!-- User List Starts -->
     <div class="space-y-4">
       <!-- User Header Starts -->
@@ -76,60 +85,18 @@
       </div>
       <!-- User Header Ends -->
 
+      <!-- datatable-wrapper datatable-loading no-footer sortable searchable fixed-column -->
       <!-- User Table Starts -->
-      <div class="table-responsive whitespace-nowrap rounded-primary">
-        <table id="users-table" class="table">
-          <thead>
-            <tr>              
-              <th class="w-[35%] uppercase">Usuário</th>
-              <th class="w-[15%] uppercase">Email</th>
-              <th class="w-[15%] uppercase">Telefone</th>
-              <th class="w-[15%] uppercase">Ingresso</th>
-              <th class="w-[15%] uppercase">Status</th>
-              <th class="w-[5%] !text-right uppercase">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            
-          </tbody>
-        </table>
+      <div id="table-container" class="table-responsive whitespace-nowrap rounded-primary code-viewer datatable-wrapper datatable-loading sortable">        
+       
       </div>
+
       <!-- User Table Ends -->
 
       <!-- User Pagination Starts -->
-      <div class="flex flex-col items-center justify-between gap-y-4 md:flex-row">
-        <p class="text-xs font-normal text-slate-400">Showing 1 to 10 of 50 result</p>
-        <!-- Pagination -->
-        <nav class="pagination">
-          <ul class="pagination-list">
-            <li class="pagination-item">
-              <a class="pagination-link pagination-link-prev-icon" href="#">
-                <i data-feather="chevron-left" width="1em" height="1em"></i>
-              </a>
-            </li>
-            <li class="pagination-item active">
-              <a class="pagination-link" href="#">1</a>
-            </li>
-            <li class="pagination-item">
-              <a class="pagination-link" href="#">2</a>
-            </li>
-            <li class="pagination-item">
-              <a class="pagination-link" href="#">3</a>
-            </li>
-            <li class="pagination-item">
-              <a class="pagination-link" href="#">4</a>
-            </li>
-            <li class="pagination-item">
-              <a class="pagination-link" href="#">5</a>
-            </li>
-            <li class="pagination-item">
-              <a class="pagination-link pagination-link-next-icon" href="#">
-                <i data-feather="chevron-right" width="1em" height="1em"></i>
-              </a>
-            </li>
-          </ul>
-        </nav>
-      </div>
+      <div id="pagination-table">
+        
+      </div>      
       <!-- User Pagination Ends -->
     </div>
     <!-- User List Ends -->

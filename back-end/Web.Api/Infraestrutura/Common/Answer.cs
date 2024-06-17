@@ -24,7 +24,7 @@ namespace Web.Api.Infraestrutura.Common
             return repository.Skip((index - 1) * size).Take(size);
         }
 
-        public static IQueryable<TEntity> OrderBy<TEntity>(this IQueryable<TEntity> queryToOrderBy, IOrderByCommand orderCommand)
+        public static IQueryable<TEntity> OrderBy<TEntity>(this IQueryable<TEntity> queryToOrderBy, IOrderByCommand orderCommand, string defaultField)
             where TEntity : class
         {
             if (!string.IsNullOrWhiteSpace(orderCommand.FieldName))
@@ -33,8 +33,15 @@ namespace Web.Api.Infraestrutura.Common
                 {
                     return queryToOrderBy.OrderBy(a => EF.Property<object>(a, orderCommand.FieldName));
                 }
-
-                return queryToOrderBy.OrderByDescending(a => EF.Property<object>(a, orderCommand.FieldName));
+                else if (orderCommand.Direction == OrderByCommandDirection.Descending)
+                {
+                    return queryToOrderBy.OrderByDescending(a => EF.Property<object>(a, orderCommand.FieldName));
+                }
+                else if (orderCommand.Direction == OrderByCommandDirection.Undefined)
+                {
+                    //Sort default field ascending direction
+                    return queryToOrderBy.OrderBy(a => EF.Property<object>(a, defaultField));
+                }
             }
 
             return queryToOrderBy;

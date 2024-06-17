@@ -1,0 +1,170 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Web.Api</name>
+    </assembly>
+    <members>
+        <member name="P:Web.Api.Domain.IdentityAgg.LocalIdentity.Id">
+            <summary>
+            Identificador único local do mega Ingresso
+            </summary>
+        </member>
+        <member name="P:Web.Api.Domain.IdentityAgg.LocalIdentity.ProviderSubject">
+            <summary>
+            ProviderSubject é o identificador único do usuário no provedor de autenticação.
+            </summary>
+        </member>
+        <member name="T:Web.Api.Infraestrutura.Common.AnswerExtensions">
+            <summary>
+            Métodos de extensão para a interface e todos os tipos derivados da interface IResponse
+            </summary>
+        </member>
+        <member name="M:Web.Api.Infraestrutura.Common.AnswerExtensions.AddMessage``1(``0,Web.Api.Infraestrutura.Common.MessageType,System.Int32,System.String[])">
+            <summary>
+            Método que adiciona uma mensagem a lista de mensagens
+            </summary>
+            <typeparam name="TResponse">Retorno genérico</typeparam>
+            <param name="response"></param>
+            <param name="type">Tipo da mensagem de erro</param>
+            <param name="text">Texto da mensagem associada a resposta</param>
+            <param name="code">Código numérico de identificação do erro</param>
+            <returns></returns>
+        </member>
+        <member name="M:Web.Api.Infraestrutura.Common.AnswerExtensions.AddMessage``1(``0,Web.Api.Infraestrutura.Common.MessageType,System.String[])">
+            <summary>
+            Método que adiciona uma mensagem a lista de mensagens
+            </summary>
+            <typeparam name="TResponse">Retorno genérico</typeparam>
+            <param name="response"></param>
+            <param name="type">Tipo da mensagem de erro</param>
+            <param name="text">Texto da mensagem associada a resposta</param>
+            <returns></returns>
+        </member>
+        <member name="M:Web.Api.Infraestrutura.Common.AnswerExtensions.AddError``1(``0,System.String[])">
+            <summary>
+            Método que adiciona uma mensagem especificamente do tipo erro a uma lista de mensagem
+            </summary>
+            <typeparam name="TResponse"></typeparam>
+            <param name="response"></param>
+            <param name="text"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Web.Api.Infraestrutura.Common.AnswerExtensions.AddError``1(``0,System.Int32,System.String[])">
+            <summary>
+            Método que adiciona uma mensagem especificamente do tipo erro a uma lista de mensagem
+            </summary>
+            <typeparam name="TResponse"></typeparam>
+            <param name="response"></param>
+            <param name="text"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Web.Api.Infraestrutura.Common.AnswerExtensions.AddCriticalError``1(``0,System.String[])">
+            <summary>
+            Método que adiciona uma mensagem indicando um erro Crítico, estes erros costumeiramente estão relacionados a problemas técnicos não foram previsto pela aplicaçãom
+            tal como permissionamento de disco, acesso a internet, etc.
+            </summary>
+            <typeparam name="TResponse"></typeparam>
+            <param name="response"></param>
+            <param name="text"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Web.Api.Infraestrutura.Common.AnswerExtensions.AddWarn``1(``0,System.String[])">
+            <summary>
+            Método que adiciona uma lista de mensagem especificamento do tipo 'Alerta' a uma lista de mensagens
+            </summary>
+            <typeparam name="TResponse"></typeparam>
+            <param name="response"></param>
+            <param name="text"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Web.Api.Infraestrutura.Common.AnswerExtensions.AddInfo``1(``0,System.String[])">
+            <summary>
+            Método que adiciona uma lista de mensagem especificamento do tipo 'Alerta' a uma lista de mensagens
+            </summary>
+            <typeparam name="TResponse"></typeparam>
+            <param name="response"></param>
+            <param name="text"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Web.Api.Infraestrutura.Common.AnswerExtensions.AddSuccess``1(``0,System.String[])">
+            <summary>
+            Método que adiciona uma lista de mensagem especificamento do tipo 'Alerta' a uma lista de mensagens
+            </summary>
+            <typeparam name="TResponse">Qualquer response que herde de IResponse</typeparam>
+            <param name="response"></param>
+            <param name="text">Lista de mensagens a serem adicionadas a resposta</param>
+            <returns></returns>
+        </member>
+        <member name="T:Web.Api.Infraestrutura.Common.IAnswer">
+            <summary>
+            Contrato Simples para Api mista(privada e pública). este contrato tem por objetivo definir a resposta de todo o serviço implementado nas controllers
+            </summary>
+        </member>
+        <member name="P:Web.Api.Infraestrutura.Common.IAnswer.Messages">
+            <summary>
+            Lista de Mensagens que podem acompanhar a resposta.
+            </summary>
+        </member>
+        <member name="P:Web.Api.Infraestrutura.Common.IAnswer.HasError">
+            <summary>
+            Propriedade que indica quando a resposta possui mensagens de erro
+            </summary>
+        </member>
+        <member name="P:Web.Api.Infraestrutura.Common.IAnswer.IsOk">
+            <summary>
+            Propriedade que indica quando não há erros na resposta
+            </summary>
+        </member>
+        <member name="T:Web.Api.Infraestrutura.Common.Message">
+            <summary>
+            Classe que representa a mensagem que deve acompanhar a resposta
+            </summary>
+        </member>
+        <member name="P:Web.Api.Infraestrutura.Common.Message.Code">
+            <summary>
+            Propriedade que identifica o erro por meio de um código único.
+            </summary>
+        </member>
+        <member name="P:Web.Api.Infraestrutura.Common.Message.Text">
+            <summary>
+            Texto amigável da mensagem
+            </summary>
+        </member>
+        <member name="P:Web.Api.Infraestrutura.Common.Message.Type">
+            <summary>
+            Tipo da mensagem, utilizada para identificar a natureza da mensagem
+            </summary>
+        </member>
+        <member name="T:Web.Api.Infraestrutura.Common.MessageType">
+            <summary>
+            Tipo da mensagem que acompanha a resposta
+            </summary>
+        </member>
+        <member name="M:Web.Api.Infraestrutura.TokenService.CreateJwtToken(Web.Api.Domain.IdentityAgg.LocalIdentity)">
+            <summary>
+            Creates JWT Token
+            </summary>
+            <param name="identity">the user</param>
+            <returns>System.String</returns>
+        </member>
+        <member name="M:Web.Api.Infraestrutura.TokenService.BuildUserClaims(Web.Api.Domain.IdentityAgg.LocalIdentity)">
+            <summary>
+            Builds the UserClaims
+            </summary>
+            <param name="identity">the User</param>
+            <returns>List&lt;System.Security.Claims&gt;</returns>
+        </member>
+        <member name="T:Web.Api.Migrations.initial">
+            <inheritdoc />
+        </member>
+        <member name="M:Web.Api.Migrations.initial.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:Web.Api.Migrations.initial.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:Web.Api.Migrations.initial.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+    </members>
+</doc>

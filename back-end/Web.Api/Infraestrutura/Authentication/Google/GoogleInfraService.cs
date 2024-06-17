@@ -2,7 +2,7 @@
 using Web.Api.Models;
 using static Google.Apis.Auth.GoogleJsonWebSignature;
 
-namespace Web.Api.Infraestrutura
+namespace Web.Api.Infraestrutura.Authentication.Google
 {
     public class GoogleInfraService
     {

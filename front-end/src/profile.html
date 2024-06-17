@@ -1,242 +1,221 @@
 <!DOCTYPE html>
 <html lang="en">
-  {{> head }}
-  <body>
-    <div id="app">
-      <!-- Sidebar Starts -->
-      
-      <!-- Sidebar Ends -->
-      {{> sidebar }}
+{{> head }}
 
-      <!-- Wrapper Starts -->
-      <div class="wrapper">
-        <!-- Header Starts -->
+<body>
+  <div id="app">
+    <!-- Sidebar Starts -->
+
+    <!-- Sidebar Ends -->
+    {{> sidebar }}
+
+    <!-- Wrapper Starts -->
+    <div class="wrapper">
+      <!-- Header Starts -->
       {{> wrapperheader }}
-       
-        <!-- Header Ends -->
 
-        <!-- Page Content Starts -->
-        <div class="content">
-          <!-- Main Content Starts -->
-          <main class="container flex-grow p-4 sm:p-6">
-            <!-- Page Title Starts -->
-            <div class="mb-6 flex flex-col justify-between gap-y-1 sm:flex-row sm:gap-y-0">
-              <h5>Profile</h5>
+      <!-- Header Ends -->
+      <div id="spinner" class="flex justify-center items-center h-screen">
+        <div class="flex">
+          <div class="spinner-pulse">
+            <div class="spinner-pulse-primary"></div>
+            <div class="spinner-pulse-primary"></div>
+          </div>
+        </div>
+      </div>
 
-              <ol class="breadcrumb">
-                <li class="breadcrumb-item">
-                  <a href="/">Home</a>
-                </li>
-                <li class="breadcrumb-item">
-                  <a href="user-list.html">Usuários</a>
-                </li>
-                <li class="breadcrumb-item">
-                  <a href="profile.html">Perfil</a>
-                </li>
-              </ol>
-            </div>
-            <!-- Page Title Ends -->
+      <!-- Page Content Starts -->
+      <div class="content hidden" id="content">
+        <!-- Main Content Starts -->
+        <main class="container flex-grow p-4 sm:p-6">
+          <!-- Page Title Starts -->
+          <div class="mb-6 flex flex-col justify-between gap-y-1 sm:flex-row sm:gap-y-0">
+            <h5>Profile</h5>
 
-            <!-- User Profile Start  -->
-            <div class="grid grid-cols-1 gap-6 lg:grid-cols-4">
-              <!-- Left Section Start  -->
-              <section class="col-span-1 flex h-min w-full flex-col gap-6 lg:sticky lg:top-20">
-                <!-- User Avatar & Status  -->
-                <div class="card">
-                  <div class="card-body flex flex-col items-center">
-                    <div class="relative my-2 h-24 w-24 rounded-full">
-                      <img
-                        src="./images/avatar11.png"
-                        alt="avatar-img"
-                        id="user-image"
-                        class="h-full w-full rounded-full"
-                      />
-                      <label
-                        for="upload-avatar"
-                        class="absolute bottom-0 right-0 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-slate-50 p-2 dark:bg-slate-900"
-                      >
-                        <span class="text-slate-600 dark:text-slate-300">
-                          <i class="w-full" data-feather="camera"></i>
-                        </span>
-                        <input
-                          type="file"
-                          accept="image/jpeg, image/png, image/jpg"
-                          class="hidden"
-                          id="upload-avatar"
-                        />
-                      </label>
-                    </div>
-                    
-                    <h2 id="nomeH2" class="text-[16px] font-medium text-slate-700 dark:text-slate-200"></h2>
-                    <p id="emailP" class="text-sm font-normal tracking-tight text-slate-400"></p>
-                    <div id="activeDiv" class=""></div>
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item">
+                <a href="/">Home</a>
+              </li>
+              <li class="breadcrumb-item">
+                <a href="user-list.html">Usuários</a>
+              </li>
+              <li class="breadcrumb-item">
+                <a href="profile.html">Perfil</a>
+              </li>
+            </ol>
+          </div>
+          <!-- Page Title Ends -->
+
+          <!-- User Profile Start  -->
+          <div class="grid grid-cols-1 gap-6 lg:grid-cols-4">
+            <!-- Left Section Start  -->
+            <section class="col-span-1 flex h-min w-full flex-col gap-6 lg:sticky lg:top-20">
+              <!-- User Avatar & Status  -->
+              <div class="card">
+                <div class="card-body flex flex-col items-center">
+                  <div class="relative my-2 h-24 w-24 rounded-full">
+                    <img src="./images/avatar11.png" alt="avatar-img" id="user-image"
+                      class="h-full w-full rounded-full" />
+                    <label for="upload-avatar"
+                      class="absolute bottom-0 right-0 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-slate-50 p-2 dark:bg-slate-900">
+                      <span class="text-slate-600 dark:text-slate-300">
+                        <i class="w-full" data-feather="camera"></i>
+                      </span>
+                      <input type="file" accept="image/jpeg, image/png, image/jpg" class="hidden" id="upload-avatar" />
+                    </label>
                   </div>
+
+                  <h2 id="nomeH2" class="text-[16px] font-medium text-slate-700 dark:text-slate-200"></h2>
+                  <p id="emailP" class="text-sm font-normal tracking-tight text-slate-400"></p>
+                  <div id="activeDiv" class=""></div>
                 </div>
+              </div>
 
-                <!-- Social Link  -->
-                <div class="card">
-                  <div class="card-body">
-                    <div class="mb-2 flex items-center justify-between">
-                      <h3 class="text-[16px] font-semibold text-slate-700 dark:text-slate-200">Social Media</h3>
-                      <button
-                        data-toggle="modal"
-                        data-target="#social-link"
-                        class="cursor-pointer text-sm text-slate-600 duration-150 ease-in hover:text-primary-500 dark:text-slate-300 dark:hover:text-primary-500"
-                      >
-                        <i class="h-5" data-feather="edit"></i>
-                      </button>
-                    </div>
-                    <!-- Facebook  -->
-                    <div class="my-3 flex items-center gap-4">
-                      <i class="h-8 text-slate-600 dark:text-slate-300" data-feather="facebook"></i>
-                      <div>
-                        <h5 class="text-sm font-medium text-slate-700 dark:text-slate-300">Facebook</h5>
-                        <a href="#" class="cursor-not-allowed">
-                          <p class="text-sm font-normal text-slate-400">Not connected</p>
-                        </a>
-                      </div>
-                    </div>
-                    <!-- Instagram  -->
-                    <div class="my-3 flex items-center gap-4">
-                      <i class="h-8 text-slate-600 dark:text-slate-300" data-feather="instagram"></i>
-                      <div>
-                        <h5 class="text-sm font-medium text-slate-700 dark:text-slate-300">Instagram</h5>
-                        <a href="#">
-                          <p class="text-sm font-normal text-primary-500">@ahmedshakil</p>
-                        </a>
-                      </div>
-                    </div>
-                    <!-- Twitter  -->
-                    <div class="my-3 flex items-center gap-4">
-                      <i class="h-8 text-slate-600 dark:text-slate-300" data-feather="twitter"></i>
-                      <div>
-                        <h5 class="text-sm font-medium text-slate-700 dark:text-slate-300">Twitter</h5>
-                        <a href="#">
-                          <p class="text-sm font-normal text-primary-500">@ahmedshakil</p>
-                        </a>
-                      </div>
-                    </div>
-                    <!-- LinkedIn  -->
-                    <div class="my-3 flex items-center gap-4">
-                      <i class="h-8 text-slate-600 dark:text-slate-300" data-feather="linkedin"></i>
-                      <div>
-                        <h5 class="text-sm font-medium text-slate-700 dark:text-slate-300">LinkedIn</h5>
-                        <a href="#">
-                          <p class="text-sm font-normal text-primary-500">ahmedshakil</p>
-                        </a>
-                      </div>
+              <!-- Social Link  -->
+              <div class="card">
+                <div class="card-body">
+                  <div class="mb-2 flex items-center justify-between">
+                    <h3 class="text-[16px] font-semibold text-slate-700 dark:text-slate-200">Social Media</h3>
+                    <button data-toggle="modal" data-target="#social-link"
+                      class="cursor-pointer text-sm text-slate-600 duration-150 ease-in hover:text-primary-500 dark:text-slate-300 dark:hover:text-primary-500">
+                      <i class="h-5" data-feather="edit"></i>
+                    </button>
+                  </div>
+                  <!-- Facebook  -->
+                  <div class="my-3 flex items-center gap-4">
+                    <i class="h-8 text-slate-600 dark:text-slate-300" data-feather="facebook"></i>
+                    <div>
+                      <h5 class="text-sm font-medium text-slate-700 dark:text-slate-300">Facebook</h5>
+                      <a href="#" class="cursor-not-allowed">
+                        <p class="text-sm font-normal text-slate-400">Not connected</p>
+                      </a>
                     </div>
                   </div>
-                </div>
-              </section>
-              <!-- Left Section End  -->
-              <!-- Right Section Start  -->
-              <section class="col-span-1 flex w-full flex-1 flex-col gap-6 lg:col-span-3 lg:w-auto">
-                <!-- Personal Details  -->
-                {{> profile/personal-detail}}
-             
-                <!-- Change Password  -->
-                {{> profile/change-password}}
-                
-                <!-- Preferences  -->
-                {{> profile/preferences}}              
-                
-                <!-- Notification -->
-                {{> profile/notification}}                             
-                
-                <!-- Delete Account -->
-                {{> profile/delete-account}}                                           
-                <!-- Delete Account End -->
-
-              </section>
-              <!-- Right Section End -->
-            </div>
-            <!-- Social Link Modal Box -->
-            <div class="modal" id="social-link">
-              <div class="modal-dialog">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <div class="flex items-center justify-between">
-                      <h6>Social Media</h6>
-                      <button
-                        type="button"
-                        class="btn btn-plain-secondary dark:text-slate-300 dark:hover:bg-slate-700 dark:focus:bg-slate-700"
-                        data-dismiss="modal"
-                      >
-                        <i data-feather="x" width="1.5rem" height="1.5rem"></i>
-                      </button>
+                  <!-- Instagram  -->
+                  <div class="my-3 flex items-center gap-4">
+                    <i class="h-8 text-slate-600 dark:text-slate-300" data-feather="instagram"></i>
+                    <div>
+                      <h5 class="text-sm font-medium text-slate-700 dark:text-slate-300">Instagram</h5>
+                      <a href="#">
+                        <p class="text-sm font-normal text-primary-500">@ahmedshakil</p>
+                      </a>
                     </div>
                   </div>
-                  <div class="modal-body">
-                    <form method="post" class="-mt-1.5 flex w-full flex-col space-y-3">
-                      <div>
-                        <label class="label" for="facebook"> Facebook </label>
-                        <input type="text" class="input" value="" id="facebook" name="facebook" />
-                      </div>
-
-                      <div>
-                        <label class="label" for="instagram"> Instragram </label>
-                        <input
-                          type="text"
-                          class="input"
-                          value="https://www.instagram.com/ahmedshakil"
-                          name="instagram"
-                          id="instagram"
-                        />
-                      </div>
-
-                      <div>
-                        <label class="label" for="twitter"> Twitter </label>
-                        <input
-                          type="text"
-                          class="input"
-                          value="https://twitter.com/ahmedshakil"
-                          id="twitter"
-                          name="twitter"
-                        />
-                      </div>
-
-                      <div>
-                        <label class="label" for="linkedin"> LinkedIn </label>
-                        <input
-                          type="text"
-                          class="input"
-                          value="https://linkedin.com/ahmedshakil"
-                          id="linkedin"
-                          name="linkedin"
-                        />
-                      </div>
-                    </form>
+                  <!-- Twitter  -->
+                  <div class="my-3 flex items-center gap-4">
+                    <i class="h-8 text-slate-600 dark:text-slate-300" data-feather="twitter"></i>
+                    <div>
+                      <h5 class="text-sm font-medium text-slate-700 dark:text-slate-300">Twitter</h5>
+                      <a href="#">
+                        <p class="text-sm font-normal text-primary-500">@ahmedshakil</p>
+                      </a>
+                    </div>
                   </div>
-                  <div class="modal-footer">
-                    <div class="flex items-center justify-end gap-4">
-                      <button type="cancel" class="btn btn-outline-secondary" data-dismiss="modal">Cancel</button>
-                      <button type="submit" class="btn btn-primary">Update</button>
+                  <!-- LinkedIn  -->
+                  <div class="my-3 flex items-center gap-4">
+                    <i class="h-8 text-slate-600 dark:text-slate-300" data-feather="linkedin"></i>
+                    <div>
+                      <h5 class="text-sm font-medium text-slate-700 dark:text-slate-300">LinkedIn</h5>
+                      <a href="#">
+                        <p class="text-sm font-normal text-primary-500">ahmedshakil</p>
+                      </a>
                     </div>
                   </div>
                 </div>
               </div>
+            </section>
+            <!-- Left Section End  -->
+            <!-- Right Section Start  -->
+            <section class="col-span-1 flex w-full flex-1 flex-col gap-6 lg:col-span-3 lg:w-auto">
+              <!-- Personal Details  -->
+              {{> profile/personal-detail}}
+
+              <!-- Change Password  -->
+              {{> profile/change-password}}
+
+              <!-- Preferences  -->
+              {{> profile/preferences}}
+
+              <!-- Notification -->
+              {{> profile/notification}}
+
+              <!-- Delete Account -->
+              {{> profile/delete-account}}
+              <!-- Delete Account End -->
+
+            </section>
+            <!-- Right Section End -->
+          </div>
+          <!-- Social Link Modal Box -->
+          <div class="modal" id="social-link">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <div class="flex items-center justify-between">
+                    <h6>Social Media</h6>
+                    <button type="button"
+                      class="btn btn-plain-secondary dark:text-slate-300 dark:hover:bg-slate-700 dark:focus:bg-slate-700"
+                      data-dismiss="modal">
+                      <i data-feather="x" width="1.5rem" height="1.5rem"></i>
+                    </button>
+                  </div>
+                </div>
+                <div class="modal-body">
+                  <form method="post" class="-mt-1.5 flex w-full flex-col space-y-3">
+                    <div>
+                      <label class="label" for="facebook"> Facebook </label>
+                      <input type="text" class="input" value="" id="facebook" name="facebook" />
+                    </div>
+
+                    <div>
+                      <label class="label" for="instagram"> Instragram </label>
+                      <input type="text" class="input" value="https://www.instagram.com/ahmedshakil" name="instagram"
+                        id="instagram" />
+                    </div>
+
+                    <div>
+                      <label class="label" for="twitter"> Twitter </label>
+                      <input type="text" class="input" value="https://twitter.com/ahmedshakil" id="twitter"
+                        name="twitter" />
+                    </div>
+
+                    <div>
+                      <label class="label" for="linkedin"> LinkedIn </label>
+                      <input type="text" class="input" value="https://linkedin.com/ahmedshakil" id="linkedin"
+                        name="linkedin" />
+                    </div>
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <div class="flex items-center justify-end gap-4">
+                    <button type="cancel" class="btn btn-outline-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Update</button>
+                  </div>
+                </div>
+              </div>
             </div>
-            <!-- User Profile End  -->
-          </main>
-          <!-- Main Content Ends -->
+          </div>
+          <!-- User Profile End  -->
+        </main>
+        <!-- Main Content Ends -->
 
-          <!-- Footer Starts -->
-          {{> footer}}
-          <!-- Footer Ends -->
-        </div>
-        <!-- Page Content Ends -->
+        <!-- Footer Starts -->
+        {{> footer}}
+        <!-- Footer Ends -->
       </div>
-      <!-- Wrapper Ends -->
-
-      <!-- Search Modal Start -->
-      {{> searchmodal }}
-      
-      <!-- Search Modal Ends -->
+      <!-- Page Content Ends -->
     </div>
-    <script src="./js/app.js" type="module"></script>
-    <script src="./js/header/profile/init.js" type="module"></script>
-    <script src="./js/profile/init.js" type="module"></script>
-    <!-- <script src="./js/custom/analytics.js" type="module"></script> -->
-  </body>
+    <!-- Wrapper Ends -->
+
+    <!-- Search Modal Start -->
+    {{> searchmodal }}
+
+    <!-- Search Modal Ends -->
+  </div>
+  <script src="./js/app.js" type="module"></script>
+  <script src="./js/header/profile/init.js" type="module"></script>
+  <script src="./js/profile/init.js" type="module"></script>
+  <!-- <script src="./js/custom/analytics.js" type="module"></script> -->
+</body>
+
 </html>

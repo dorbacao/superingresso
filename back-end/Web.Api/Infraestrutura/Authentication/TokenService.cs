@@ -6,7 +6,7 @@ using System.Security.Claims;
 using System.Text;
 using Web.Api.Domain.IdentityAgg;
 
-namespace Web.Api.Infraestrutura
+namespace Web.Api.Infraestrutura.Authentication
 {
     public struct TokenInfo
     {
@@ -51,7 +51,7 @@ namespace Web.Api.Infraestrutura
                 issuer: jwtConfig.ValidIssuer,
                 notBefore: DateTime.UtcNow,
                 audience: jwtConfig.ValidAudience,
-                expires: DateTime.UtcNow.AddMinutes(Convert.ToInt32(jwtConfig.DurationInMinutes)),
+                expires: DateTime.UtcNow.AddDays(Convert.ToInt32(jwtConfig.DurationInDays)),
                 claims: userClaims,
                 signingCredentials: new SigningCredentials(signKey, SecurityAlgorithms.HmacSha256));
 
@@ -80,10 +80,10 @@ namespace Web.Api.Infraestrutura
             {
                 new Claim(JwtClaimTypes.Id, identity.Id.ToString()),
                 new Claim(JwtClaimTypes.Email, identity.EmailOrLogin),
-                //new Claim(JwtClaimTypes.EmailVerified, identity.EmailOrLogin),
+                new Claim(JwtClaimTypes.Subject, identity.UserId?.ToString()),
                 new Claim(JwtClaimTypes.GivenName, identity.GivenName),
-                new Claim(JwtClaimTypes.FamilyName, identity.SurName),
-                new Claim(JwtClaimTypes.Picture, identity.PictureUrl),
+                new Claim(JwtClaimTypes.FamilyName, identity.SurName ?? identity.GivenName),
+                new Claim(JwtClaimTypes.Picture, identity.PictureUrl ?? "http://localhost"),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             };
 

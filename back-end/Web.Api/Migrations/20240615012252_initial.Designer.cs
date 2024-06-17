@@ -12,7 +12,7 @@ using Web.Api.Database;
 namespace Web.Api.Migrations
 {
     [DbContext(typeof(SuperIngressoContext))]
-    [Migration("20240613141031_initial")]
+    [Migration("20240615012252_initial")]
     partial class initial
     {
         /// <inheritdoc />
@@ -53,7 +53,6 @@ namespace Web.Api.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("SurName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid?>("UserId")

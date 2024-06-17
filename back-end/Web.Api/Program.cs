@@ -44,19 +44,6 @@ else
 }
 
 app.UseCors("CorsPolicy");
-//app.UseCors(builder =>
-//    builder.WithOrigins("http://localhost:5173") // Substitua com a origem que você quer permitir
-//           .AllowAnyHeader()
-//           .AllowAnyMethod()
-//);
-//app.UseCors(
-//               options => options.SetIsOriginAllowed(x => _ = true)
-//               .WithMethods("PUT", "DELETE", "GET", "OPTIONS", "POST")
-//               .AllowAnyHeader()
-//               .AllowCredentials()
-//           );
-
-// Configure the HTTP request pipeline.
 
 app.MapControllerRoute(
     name: "default",

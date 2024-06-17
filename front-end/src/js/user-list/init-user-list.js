@@ -1,6 +1,11 @@
 import toastr from "./../components/toast";
+import paging from "../my-components/table/paging";
+import myTable from "../my-components/table/table";
 import 'toastr/build/toastr.min.css';
 import { userService } from '../services/userService';
+import answer from "../my-components/answer";
+
+var tableRef;
 
 const template = (row) => /*html*/ `<tr>
 <td>
@@ -33,55 +38,78 @@ const template = (row) => /*html*/ `<tr>
 </td>
 </tr>`;
 
+$bus.subscribe('user-list-loaded', (data) => {
+  $.id('spinner').classList.add('hidden');
+  $.id('container').classList.remove('hidden');
+});
 
-async function loadTable() {
-    var table = document.getElementById('users-table');
-    var tBody = table.querySelector('tbody');
+let options = {
+  id: 'table-container',
+  paging: {
+    pageIndex: 1,
+    pageSize: 5,
+    id: 'pagination-table'
+  },
+  events: [
+    { name: 'click', type: 'button' }
+  ],
+  table: {
+    class: 'table datatable-table'
+  },
+  columns: [
+    { title: 'Usuário', class: 'w-[35%] uppercase', sort:{field:'Nome', asc:true} },
+    { title: 'Email', class: 'w-[15%] uppercase', sort:{field:'Email'}},
+    { title: 'Telefone', class: 'w-[15%] uppercase' , sort:{field:'Telefone'}},
+    { title: 'Ingresso', class: 'w-[15%] uppercase' , sort:{field:'DataInclusao'}},
+    { title: 'Status', class: 'w-[15%] uppercase' , sort:{field:'Ativo'}},
+    { title: 'Actions', class: 'w-[5%] uppercase' },
+  ]
+};
 
-    tBody.innerHTML = '';
+async function onChangePage(e) {
+  await refreshTable(e.detail.newPage);
+}
 
-    var service = new userService();
-    var users = await service.getAllAsync();
+async function refreshTable(newPage){
+  var service = new userService();
+  tableRef.options.paging.pageIndex = newPage.pageIndex;
+  tableRef.options.paging.pageSize = newPage.pageSize;
+  await tableRef.fillAsync(service.getAllAsync, template);
+}
 
-    users.forEach(row => {
-        tBody.innerHTML += template(row);
-    });
+async function renderTable(pagination) {
 
-    var editButtonArray = tBody.getElementsByTagName('button');
-    console.log('editButtonArray');
-    console.log(editButtonArray.length);
+  if (pagination) {
+    options.paging.pageIndex = pagination.pageIndex;
+    options.paging.pageSize = pagination.pageSize;
+  }
 
-    for (let i = 0; i < editButtonArray.length; i++) {
-        const element = editButtonArray[i];
-        element.addEventListener('click', event=>{
-            var id = event.target.dataset.id;
-            window.location = `profile.html?id=${id}`;
-        });
-    }
+  tableRef = myTable.render(options);
 
+  tableRef.getTable().addEventListener('tableChange', event => {
+    window.location = "profile.html?id=" + event.detail.dataset.id;
+  });
+
+  await refreshTable(options.paging);
+
+  tableRef.getTable().addEventListener('changepage', onChangePage);
+
+  $bus.publish('user-list-loaded');
 }
 
 export async function initUserList() {
 
-    var pesquisarButton =document.getElementById('pesquisar-button');
+  var pesquisarButton = document.getElementById('pesquisar-button');
 
-    pesquisarButton.addEventListener('click', async () => {
-        await loadTable();
-    });
+  pesquisarButton.addEventListener('click', async () => {
+    await renderTable();
+  });
 
-    document.getElementById('exportButton').addEventListener('click', async () => {
-        toastr.info('exportButton click');
-    });
+  document.getElementById('exportButton').addEventListener('click', async () => {
+    toastr.info('exportButton click');
+  });
 
-    pesquisarButton.click();
+  pesquisarButton.click();
 }
-await initUserList();  
-// window.addEventListener('load', async ()=>{
-//   try {
-//     await initUserList();  
-//   } catch (error) {
-//     console.log(error);
-//   }
-  
-// });
 
+await initUserList();  

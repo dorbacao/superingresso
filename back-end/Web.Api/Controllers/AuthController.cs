@@ -5,14 +5,17 @@ using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Web.Api.Database;
 using Web.Api.Extensions;
-using Web.Api.Infraestrutura;
 using Web.Api.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Security.Claims;
 using Web.Api.Domain.IdentityAgg;
 using Azure;
 using Microsoft.AspNetCore.Authorization;
-
+using Web.Api.Infraestrutura.Common;
+using Newtonsoft.Json.Linq;
+using Web.Api.Infraestrutura.Authentication;
+using Web.Api.Infraestrutura.Authentication.Google;
+using static Web.Api.Infraestrutura.Common.Answer;
 namespace Web.Api.Controllers
 {
 
@@ -25,8 +28,8 @@ namespace Web.Api.Controllers
         private readonly TokenService tokenService;
         private readonly SuperIngressoContext context;
 
-        public AuthController(ILogger<AuthController> logger, 
-            GoogleInfraService googleService, 
+        public AuthController(ILogger<AuthController> logger,
+            GoogleInfraService googleService,
             TokenService tokenService,
             SuperIngressoContext context)
         {
@@ -36,116 +39,192 @@ namespace Web.Api.Controllers
             this.context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-
-        //TODO: Configurar o GoogleInfraService no IOC
-        //TODO: Configurar a classe GoogleAuthConfig no IOC
-        //TODO: Preencher o AppSettings de Development com as chaves de autenticação do google
-        //TODO: Criar os relcionamentos entre User e Identity
-        //TODO: Criar o mapeamento no EF Core
-        //TODO: Adicionar o id do usuário vinculado ao identity na geração das claims
-
-
-
         [HttpPost("google/token")]
         [AllowAnonymous]
-        public async Task<IActionResult> GoogleTokenAsync([FromBody] GoogleSignInModel model)
+        public async Task<Answer<TokenInfo>> GoogleTokenAsync([FromBody] GoogleSignInModel model)
         {
             try
             {
-                context.Set<LocalIdentity>().ExecuteDelete();
-                context.Set<User>().ExecuteDelete();
-                await context.SaveChangesAsync();
                 //Obtém o Payload por meio do IdToken
                 var payload = await googleService.ExtractPayloadFromIdToken(model);
 
-                
                 //Cria instancia do identity por meio do payload
-                var identity = payload.ToIdentity();
+                var identityCandidate = payload.ToIdentity();
 
-                var user = UserFactory.CreateFromIdentity(identity);
+                var identityCadastrado = context.Set<LocalIdentity>()
+                    .Where(a => a.ProviderSubject == identityCandidate.ProviderSubject)
+                    .Where(a => a.LoginProvider == identityCandidate.LoginProvider)
+                    .FirstOrDefault()
+                    ;
 
-                //Inclui e Salva o Usuário e Identidade
-                context.Add(user);
-                context.Add(identity);
+                if (identityCadastrado != null)
+                {
+                    identityCadastrado.Fill(identityCandidate);
 
-                await context.SaveChangesAsync();
+                    if (!identityCadastrado.UserId.HasValue)
+                    {
+                        var newUser = UserFactory.CreateFromIdentity(identityCadastrado);
+                        context.Add(identityCandidate);
+                    }
 
-                var token = tokenService.CreateJwtToken(identity);
+                    context.Set<LocalIdentity>().Update(identityCadastrado);
+                    await context.SaveChangesAsync();
 
-                return Ok(token);
+                    var token = tokenService.CreateJwtToken(identityCadastrado);
+
+                    return Answer.Ok(token);
+                }
+                else
+                {
+                    var user = UserFactory.CreateFromIdentity(identityCandidate);
+
+                    //Inclui e Salva o Usuário e Identidade
+                    context.Add(user);
+                    context.Add(identityCandidate);
+
+                    await context.SaveChangesAsync();
+
+                    var token = tokenService.CreateJwtToken(identityCandidate);
+
+                    return Answer.Ok(token);
+                }
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return Answer.Error<TokenInfo>(ex.Message);
             }
         }
 
 
-        [HttpGet("login")]
-        public IActionResult Login()
+        [HttpPost("facebook/token")]
+        [AllowAnonymous]
+        public async Task<Answer<TokenInfo>> FacebookTokenAsync([FromBody] FacebookSignInModel model)
+        {
+            return null;
+            //    try
+            //    {
+            //        //Obtém o Payload por meio do IdToken
+            //        var payload = await googleService.ExtractPayloadFromIdToken(model);
+
+            //        //Cria instancia do identity por meio do payload
+            //        var identityCandidate = payload.ToIdentity();
+
+            //        var identityCadastrado = context.Set<LocalIdentity>()
+            //            .Where(a => a.ProviderSubject == identityCandidate.ProviderSubject)
+            //            .Where(a => a.LoginProvider == identityCandidate.LoginProvider)
+            //            .FirstOrDefault()
+            //            ;
+
+            //        if (identityCadastrado != null)
+            //        {
+            //            identityCadastrado.Fill(identityCandidate);
+
+            //            if (!identityCadastrado.UserId.HasValue)
+            //            {
+            //                var newUser = UserFactory.CreateFromIdentity(identityCadastrado);
+            //                context.Add(identityCandidate);
+            //            }
+
+            //            context.Set<LocalIdentity>().Update(identityCadastrado);
+            //            await context.SaveChangesAsync();
+
+            //            var token = tokenService.CreateJwtToken(identityCadastrado);
+
+            //            return Answer.Ok(token);
+            //        }
+            //        else
+            //        {
+            //            var user = UserFactory.CreateFromIdentity(identityCandidate);
+
+            //            //Inclui e Salva o Usuário e Identidade
+            //            context.Add(user);
+            //            context.Add(identityCandidate);
+
+            //            await context.SaveChangesAsync();
+
+            //            var token = tokenService.CreateJwtToken(identityCandidate);
+
+            //            return Answer.Ok(token);
+            //        }
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        return Answer.Error<TokenInfo>(ex.Message);
+            //    }
+        }
+
+        [HttpPost("local/signin")]
+        [AllowAnonymous]
+        public async Task<Answer<TokenInfo>> LocalSigninAsync([FromBody] UserModel userModel)
         {
             try
             {
-                var props = new AuthenticationProperties { RedirectUri = Url.Action(nameof(GoogleLogin)) };
-                return Challenge(props, GoogleDefaults.AuthenticationScheme);
+                //Cria instancia do identity por meio do payload
+                var identityCandidate = userModel.ToIdentity();
+
+                var identityCadastrado = context.Set<LocalIdentity>()
+                    .Where(a => a.ProviderSubject == identityCandidate.ProviderSubject)
+                    .Where(a => a.LoginProvider == identityCandidate.LoginProvider)
+                    .FirstOrDefault()
+                    ;
+
+                if (identityCadastrado != null)
+                {
+                    identityCadastrado.Fill(identityCandidate);
+
+                    if (!identityCadastrado.UserId.HasValue)
+                    {
+                        var newUser = UserFactory.CreateFromIdentity(identityCadastrado);
+                        context.Add(identityCandidate);
+                    }
+
+                    context.Set<LocalIdentity>().Update(identityCadastrado);
+                    await context.SaveChangesAsync();
+
+                    var token = tokenService.CreateJwtToken(identityCadastrado);
+
+                    return Answer.Ok(token);
+                }
+                else
+                {
+                    var user = UserFactory.CreateFromIdentity(identityCandidate);
+
+                    //Inclui e Salva o Usuário e Identidade
+                    context.Add(user);
+                    context.Add(identityCandidate);
+
+                    await context.SaveChangesAsync();
+
+                    var token = tokenService.CreateJwtToken(identityCandidate);
+
+                    return Answer.Ok(token, "Usuário criado com sucesso, autenticação concluida.");
+                }
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
-            }            
+                return Answer.Error<TokenInfo>(ex.Message);
+            }
         }
 
-        [HttpGet("signin-google")]
-        public async Task<IActionResult> GoogleLogin()
+        [HttpPost("local/token")]
+        [AllowAnonymous]
+        public async Task<Answer<TokenInfo>> LocalTokenAsync([FromBody] LoginModel loginModel)
         {
-            var response = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            if (response.Principal == null) return BadRequest();
+            var identity = context.Set<LocalIdentity>()
+                .Where(a => a.EmailOrLogin == loginModel.Login)
+                .FirstOrDefault()
+                ;
 
-            var name = response.Principal.FindFirstValue(ClaimTypes.Name);
-            var givenName = response.Principal.FindFirstValue(ClaimTypes.GivenName);
-            var email = response.Principal.FindFirstValue(ClaimTypes.Email);
-            //Do something with the claims
-            // var user = await UserService.FindOrCreate(new { name, givenName, email});
+            if (identity == null) return º401<TokenInfo>("Usuário ou senha inválidos");
 
-            return Ok();
-        }
+            if (identity.LoginProvider != LoginProvider.Local) return º401<TokenInfo>("Usuário ou senha inválidos");
 
-        [HttpPost]
-        public async Task<IActionResult> Create([FromBody] UserModel userModel)
-        {
-            try
-            {
+            var samePws = identity.Password == loginModel.Senha?.ToSha256();
+            if (!samePws) return º401<TokenInfo>("Usuário ou senha inválidos");
 
-                var exists = await context.Set<User>().AnyAsync(a => a.Login == userModel.Email);
-                if (exists)
-                {
-                    return BadRequest("Este usuário já existe");
-                }
+            var token = tokenService.CreateJwtToken(identity);
 
-                var user = new User();
-
-                user.Id = (userModel.Id == null || Guid.Empty.Equals(userModel.Id)) ? Guid.NewGuid() : Guid.Parse(userModel.Id);
-                user.Nome = userModel.Nome;
-                user.Login = userModel.Email;
-                user.Email = userModel.Email;
-
-                if (userModel.Senha != userModel.ConfirmarSenha)
-                {
-                    return BadRequest("Os campos 'Senha' e 'Confirmar Senha' não podem ser diferentes!");
-                }
-
-                user.Senha = userModel.Senha.ToSha256();
-
-                await context.Set<User>().AddAsync(user);
-                await context.SaveChangesAsync();
-
-                //return Ok(new TokenService(null).CreateToken(user));
-                return BadRequest();
-            }
-            catch (Exception ex) when (ex.InnerException is SqlException)
-            {
-                return BadRequest(ex.InnerException.Message);
-            }
+            return Answer.Ok(token, "Usuário autenticado com sucesso!");
         }
 
     }

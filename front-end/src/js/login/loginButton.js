@@ -1,37 +1,16 @@
 
-import toastr from 'toastr';
+import toastr from "./../components/toast";
 import 'toastr/build/toastr.min.css';
 import { authService } from '../services/auth';
 
 async function onSignIn(response){
-    console.log('credential');
-    console.log(response.credential);
-    var body = {idToken:response.credential};
-    
-    var url = `${import.meta.env.VITE_APP_URL}/auth/google/token`;
-    console.log(url);
-  
-    var response = await fetch(url, {
-      method:"POST",
-      body:JSON.stringify(body),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
 
-    console.log(response);
+    var service = new authService();
+    var result = await service.loginFromGoogle(response.credential);
 
-    if(!response.ok){
-        toastr.error(await response.text());
+    if(result){
+        window.location = 'profile.html';
     }
-  
-    var token = await response.json();
-    console.log(token);
-    
-    localStorage.setItem('token', JSON.stringify(token));
-
-    //window.location = 'index.html';
-    window.location = 'profile.html';
   }
   
 function alteraLabelDoBotaoGoogle(){
@@ -41,14 +20,14 @@ function alteraLabelDoBotaoGoogle(){
   .forEach(txt => txt.innerHTML = 'Continue com o Google')
 
 }
-export function loginInit() {
+
+export async function googleLoginInit(){
 
     var clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+
     var loginGoogleButton = document.getElementById("login-google-button");
-    google.accounts.id.initialize({
-        'client_id': clientId,
-        'callback': onSignIn
-    });
+
+    google.accounts.id.initialize({'client_id': clientId,'callback': onSignIn });
     
     google.accounts.id.renderButton(loginGoogleButton, {
         shape:'square',
@@ -62,6 +41,18 @@ export function loginInit() {
     });
 
     setTimeout(alteraLabelDoBotaoGoogle, 100);
+}
+
+export async function facebookLoginInit(){
+
+    $.id('facebook-login-button').addEventListener('click', async ()=>{
+        var service = new authService();
+        await service.loginFromFacebook();
+    });
+
+}
+export async function localLoginInit() {
+
     
     var loginInput = document.getElementById("loginInput");
     loginInput.focus();
@@ -76,7 +67,7 @@ export function loginInit() {
     };
 
     senhaInput.addEventListener("keypress", keyPress);
-    loginInput.addEventListener("keypress", e => {
+    loginInput.addEventListener("keypress", async e => {
         var senha = document.getElementById("senhaInput");
         senha.focus();
     });
@@ -107,7 +98,7 @@ export function loginInit() {
         }
 
         var service = new authService();
-        await service.login(login, senha);
+        await service.loginFromLocal(login, senha);
 
     });
 }

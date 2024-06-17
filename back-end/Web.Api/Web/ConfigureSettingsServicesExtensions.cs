@@ -1,4 +1,5 @@
-﻿using Web.Api.Infraestrutura;
+﻿using Web.Api.Infraestrutura.Authentication;
+using Web.Api.Infraestrutura.Authentication.Google;
 
 public static class ConfigureSettingsServicesExtensions
 {

@@ -33,20 +33,20 @@ namespace Web.Api.Controllers
 
         public SuperIngressoContext Context { get; }
 
+        public static int pageIndex = 0;
 
         [HttpGet]
         public async Task<AnswerPaginate<List<User>>> GetUsersAsync([FromQuery] PaginateCommand command)
         {
             var users = await Context.Set<User>()
-                    .OrderBy(command)
+                    .OrderBy(command, "Nome")
                     .Paginate(command)
-                    //.Select(a => new { a.Id, a.Telefone, a.Nome, a.SobreNome, a.Email })
                     .ToListAsync<User>();
                     ;
             
-            var count = await Context.Set<User>().LongCountAsync();
 
-            return Answer.Ok(users, count);
+            var count = await Context.Set<User>().LongCountAsync();
+            return Answer.Ok(users, count, command);
         }
 
 
@@ -72,12 +72,12 @@ namespace Web.Api.Controllers
             return Ok();
         }
         [HttpPut("{id:guid}")]
-        public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UserModel userModel)
+        public async Task<Answer> Update([FromRoute] Guid id, [FromBody] UserModel userModel)
         {
             var user = await Context.Set<User>().FirstOrDefaultAsync(user => user.Id == id);
             if (user == null)
             {
-                return NotFound();
+                return Answer.NotFound();
             }
 
             user.Nome = userModel.Nome;
@@ -92,7 +92,7 @@ namespace Web.Api.Controllers
             Context.Set<User>().Attach(user);
             await Context.SaveChangesAsync();
 
-            return Ok("Usuário alterado com sucesso");
+            return Answer.Ok("Usuário alterado com sucesso");
         }
 
 
@@ -143,14 +143,15 @@ namespace Web.Api.Controllers
         }
 
         [HttpGet("{id:guid}")]
-        public async Task<User> Get([FromRoute] Guid id)
+        public async Task<Answer<User?>> Get([FromRoute] Guid id)
         {
+            Thread.Sleep(1000);
             var user = await Context
                 .Set<User>()
                 .FirstOrDefaultAsync(a => a.Id == id)
                 ;
 
-            return user;
+            return Answer.Ok(user);
         }
 
         [HttpPatch("{id}/password")]

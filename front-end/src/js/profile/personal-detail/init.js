@@ -1,4 +1,4 @@
-import toastr from 'toastr';
+import toastr from "./../../components/toast";
 import { userService } from '../../services/userService';
 import {setupSaveButton} from './save-button';
 import { setupCancelButton } from './cancel-button';
@@ -26,7 +26,7 @@ export async function initPersonalDetail(){
         setInput("country", userDetail.estado);
         setInput("zip-code", userDetail.codigoPostal);
 
-        console.log(userDetail);
+        $bus.publish('user-loaded', { data: userDetail });        
     }
 }
 await setupSaveButton(document.getElementById('save-user-detail-button'));

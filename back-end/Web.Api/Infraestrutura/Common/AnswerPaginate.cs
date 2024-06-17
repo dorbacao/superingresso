@@ -4,6 +4,8 @@
     {
         public long TotalCount { get; set; }
         public string SkipToken { get; set; }
+        public int PageIndex { get; set; }
+        public int PageSize { get; set; }
     }
 
 }

@@ -1,5 +1,6 @@
-//import {login} from '../../partials/login.html';
-import { loginInit } from "./loginButton";
+import {googleLoginInit, facebookLoginInit, localLoginInit } from "./loginButton";
 
 
-loginInit();
+await googleLoginInit();
+await facebookLoginInit();
+await localLoginInit();

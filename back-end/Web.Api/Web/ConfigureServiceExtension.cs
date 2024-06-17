@@ -4,7 +4,8 @@ using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Web.Api.Database;
-using Web.Api.Infraestrutura;
+using Web.Api.Infraestrutura.Authentication;
+using Web.Api.Infraestrutura.Authentication.Google;
 using static IdentityModel.ClaimComparer;
 
 public static class ConfigureServiceExtension

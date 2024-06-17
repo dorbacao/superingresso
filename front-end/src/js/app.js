@@ -23,6 +23,9 @@ import themeSwitcher from './components/theme-switcher';
 import tooltip from './components/tooltip';
 import uploader from './components/uploader';
 import appInitializer from './init';
+import serviceBus from './components/service-bus';
+import getter from './components/getter';
+import table from './my-components/table/table';
 
 // Initialize searchModal
 searchModal.init();
@@ -77,6 +80,13 @@ checkAll.init();
 
 // Initialize feather-icons. Must be Initialize at the end.
 feather.replace();
+
+//Initialize a Service Bus
+serviceBus.init();
+
+getter.init();
+
+table.init();
 
 appInitializer();
 // Polyfill for ResizeObserver

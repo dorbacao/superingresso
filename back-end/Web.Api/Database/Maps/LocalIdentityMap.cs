@@ -13,7 +13,7 @@ namespace Web.Api.Database.Maps
             builder.Property(a=>a.PictureUrl);
             builder.Property(a=>a.EmailOrLogin).IsRequired();
             builder.Property(a=>a.Password).IsRequired(false);
-            builder.Property(a=>a.SurName).IsRequired();
+            builder.Property(a=>a.SurName).IsRequired(false);
             builder.Property(a=>a.GivenName).IsRequired();
             builder.HasOne(a => a.User)
                 .WithMany(a=>a.Identities)

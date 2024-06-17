@@ -1,4 +1,5 @@
 import toastr from "./../components/toast";
+import answer from "../my-components/answer";
 
 export class authService {
 
@@ -8,7 +9,7 @@ export class authService {
 
     async createAndLogin(user) {
 
-        const url = `${import.meta.env.VITE_APP_URL}/auth`;
+        const url = `${import.meta.env.VITE_APP_URL}/auth/local/signin`;
 
         var response = await fetch(url, {
             method: 'POST',
@@ -18,59 +19,96 @@ export class authService {
             }
         });
 
-        console.log(response);
-        if(!response.ok){
-            toastr.error(await response.text());    
-            console.log(response.statusText);
-            return;
-        }
+        var tokenInfo = await response.json();
 
-        var token = await response.json();
+        answer.fromResponse(tokenInfo);
 
-        console.log(token);
+        localStorage.setItem("token", JSON.stringify(tokenInfo.value));
 
-        localStorage.setItem("login", JSON.stringify(token));
-
-        toastr.success("Usuário autenticado com sucesso. Iniciando a sessão!");
-
-        setTimeout(()=>{
+        setTimeout(() => {
             window.location = "index.html";
-        }, 1000);
+        }, 500);
 
         return token;
     }
 
-    async login(login, senha) {
+    async loginFromLocal(login, senha) {
 
-        const url = `${import.meta.env.VITE_APP_URL}/user/login`;
+        const url = `${import.meta.env.VITE_APP_URL}/auth/local/token`;
 
         var response = await fetch(url, {
             method: 'POST',
-            body: JSON.stringify({ 'token': login, 'senha': senha }),
+            body: JSON.stringify({ 'login': login, 'senha': senha }),
             headers: {
-                //'Access-Control-Allow-Origin': '*',
                 'Content-Type': 'application/json'
             }
         });
 
-        console.log(response);
-        if(!response.ok){
-            toastr.error("Login e/ou senha inválidos");    
-            console.log(response.statusText);
-            return;
+        var result = await response.json();
+
+        answer.fromResponse(result);
+
+        if(result.isOk){
+            localStorage.setItem("token", JSON.stringify(result.value));
+
+            setTimeout(() => {
+                window.location = "index.html";
+            }, 100);
         }
-
-        var token = await response.json();
-
-        localStorage.setItem("login", JSON.stringify(token));
-
-        toastr.success("Usuário autenticado com sucesso");
-
-        setTimeout(()=>{
-            window.location = "index.html";
-        }, 200);
-
-        return token;
+        return false;
     }
 
+    async loginFromGoogle(credential) {
+        try {
+
+            var body = { idToken: credential };
+
+            var url = `${import.meta.env.VITE_APP_URL}/auth/google/token`;
+
+            var response = await fetch(url, {
+                method: "POST",
+                body: JSON.stringify(body),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            var responseBody = await response.json();
+            answer.fromResponse(responseBody);
+
+            localStorage.setItem('token', JSON.stringify(responseBody.value));
+
+        } catch (error) {
+            answer.fromException(error);
+            return false;
+        }
+        return true;
+    }
+
+    loginFromFacebook() {
+        FB.login(function (response) {
+            if (response.authResponse) {
+                // O usuário foi autenticado com sucesso
+
+                var url = `${import.meta.env.VITE_APP_URL}/auth/facebook/token`;
+
+                var body = { accessToken: response.authResponse.accessToken };
+
+                fetch(url, {
+                    method: "POST",
+                    body: JSON.stringify(body),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(jsonBody => { 
+                    answer.fromResponse(jsonBody);
+                    localStorage.setItem('token', jsonBody.value);
+                    window.location = "index.html";
+                });
+            }
+        }, { scope: 'public_profile' });
+
+    }
 }

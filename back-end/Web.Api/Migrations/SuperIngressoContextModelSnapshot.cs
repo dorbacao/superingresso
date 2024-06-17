@@ -50,7 +50,6 @@ namespace Web.Api.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("SurName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid?>("UserId")

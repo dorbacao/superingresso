@@ -14,6 +14,41 @@
             ProviderSubject é o identificador único do usuário no provedor de autenticação.
             </summary>
         </member>
+        <member name="T:Web.Api.Infraestrutura.Authentication.Facebook.FacebookAuthService">
+            <summary>
+            Class Facebook Auth Service.
+            Implements the <see cref="T:Web.Api.Infraestrutura.Authentication.Facebook.IFacebookAuthService" />
+            </summary>
+            <seealso cref="T:Web.Api.Infraestrutura.Authentication.Facebook.IFacebookAuthService" />
+        </member>
+        <member name="M:Web.Api.Infraestrutura.Authentication.Facebook.FacebookAuthService.ValidateFacebookToken(System.String)">
+            <summary>
+            Validates Facebook Accesstoken
+            </summary>
+            <param name="accessToken">the accesstoken from facebook</param>
+            <returns>Task&lt;BaseResponse&lt;FacebookTokenValidationResponse&gt;&gt;</returns>
+        </member>
+        <member name="M:Web.Api.Infraestrutura.Authentication.Facebook.FacebookAuthService.GetFacebookUserInformation(System.String)">
+            <summary>
+            Get Facebook User Information.
+            </summary>
+            <param name="accessToken">the access token from facebook</param>
+            <returns>Task&lt;BaseResponse&lt;FacebookUserInfoResponse&gt;&gt;</returns>
+        </member>
+        <member name="M:Web.Api.Infraestrutura.Authentication.TokenService.CreateJwtToken(Web.Api.Domain.IdentityAgg.LocalIdentity)">
+            <summary>
+            Creates JWT Token
+            </summary>
+            <param name="identity">the user</param>
+            <returns>System.String</returns>
+        </member>
+        <member name="M:Web.Api.Infraestrutura.Authentication.TokenService.BuildUserClaims(Web.Api.Domain.IdentityAgg.LocalIdentity)">
+            <summary>
+            Builds the UserClaims
+            </summary>
+            <param name="identity">the User</param>
+            <returns>List&lt;System.Security.Claims&gt;</returns>
+        </member>
         <member name="T:Web.Api.Infraestrutura.Common.AnswerExtensions">
             <summary>
             Métodos de extensão para a interface e todos os tipos derivados da interface IResponse
@@ -140,20 +175,6 @@
             Tipo da mensagem que acompanha a resposta
             </summary>
         </member>
-        <member name="M:Web.Api.Infraestrutura.TokenService.CreateJwtToken(Web.Api.Domain.IdentityAgg.LocalIdentity)">
-            <summary>
-            Creates JWT Token
-            </summary>
-            <param name="identity">the user</param>
-            <returns>System.String</returns>
-        </member>
-        <member name="M:Web.Api.Infraestrutura.TokenService.BuildUserClaims(Web.Api.Domain.IdentityAgg.LocalIdentity)">
-            <summary>
-            Builds the UserClaims
-            </summary>
-            <param name="identity">the User</param>
-            <returns>List&lt;System.Security.Claims&gt;</returns>
-        </member>
         <member name="T:Web.Api.Migrations.initial">
             <inheritdoc />
         </member>
@@ -165,6 +186,11 @@
         </member>
         <member name="M:Web.Api.Migrations.initial.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
+        </member>
+        <member name="P:Web.Api.Models.FacebookSignInModel.AccessToken">
+            <summary>
+            This token is generated from the client side. i.e. react, angular, flutter etc.
+            </summary>
         </member>
     </members>
 </doc>

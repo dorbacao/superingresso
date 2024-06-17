@@ -5,7 +5,7 @@ import { authService } from '../services/auth';
 
 function setValidity(input, message){
     if(!input.value){
-        toastr.error(message);
+        toastr.danger(message);
         input.setCustomValidity(message);
         input.reportValidity();
         return false;
@@ -26,7 +26,7 @@ export async function init(){
 
         if(!aceitoCheck.checked){
             let msg = 'Você precisa aceitar os termos e condições';
-            toastr.error(msg);
+            toastr.danger(msg);
             aceitoCheck.setCustomValidity(msg);
             aceitoCheck.reportValidity();
             return;
@@ -44,7 +44,7 @@ export async function init(){
 
         if(validity && senhaInput.value != confirmarSenhaInput.value){
             var msg = 'Os campos "Senha" e "Confirmar Senha" não podem ser diferentes';
-            toastr.error(msg);
+            toastr.danger(msg);
             confirmarSenhaInput.setCustomValidity(msg);
             confirmarSenhaInput.reportValidity();
             validity = false;

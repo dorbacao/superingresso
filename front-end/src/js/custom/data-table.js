@@ -40,7 +40,7 @@ async function loadTable(table) {
 }
 
 //Datatable Simple
-const dataTableSimpleSourceCode = `
+const dataTableSimpleSourceCode = /*html*/`
   <table id="datatable-simple" class="table">
     <thead>
       <tr>
